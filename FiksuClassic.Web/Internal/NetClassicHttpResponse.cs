@@ -1,5 +1,6 @@
 ﻿using Fiksu.Web;
 using System;
+using System.Net;
 using System.Web;
 
 namespace FiksuClassic.Web.Internal
@@ -14,6 +15,18 @@ namespace FiksuClassic.Web.Internal
         {
             get => _response.ContentType;
             set => _response.ContentType = value;
+        }
+
+        public HttpStatusCode StatusCode
+        {
+            get => (HttpStatusCode)_response.StatusCode;
+            set => _response.StatusCode = (int)value;
+        }
+
+        public string StatusDescription
+        {
+            get => _response.StatusDescription;
+            set => _response.StatusDescription = value;
         }
 
         public IHttpHeaderDictionary Headers

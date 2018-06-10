@@ -11,7 +11,6 @@ namespace FiksuClassic.Web.Internal
         private readonly HttpCookieCollection _cookies;
 
         public string this[string key] => _cookies[key]?.Value ?? string.Empty;
-        public int Count => _cookies.Count;
         public ICollection<string> Keys => _cookies.AllKeys;
 
         public NetClassicHttpRequestCookies(HttpCookieCollection cookies)

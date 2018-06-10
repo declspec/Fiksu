@@ -4,7 +4,6 @@ namespace Fiksu.Web
 {
     public interface IHttpRequestCookies : IEnumerable<KeyValuePair<string, string>>
     {
-        int Count { get; }
         string this[string key] { get; }
         ICollection<string> Keys { get; }
 

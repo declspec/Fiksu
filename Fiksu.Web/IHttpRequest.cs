@@ -1,6 +1,4 @@
-﻿using System.Collections.Specialized;
-
-namespace Fiksu.Web
+﻿namespace Fiksu.Web
 {
     public interface IHttpRequest
     {

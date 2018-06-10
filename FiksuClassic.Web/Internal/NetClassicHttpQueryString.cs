@@ -1,6 +1,6 @@
 ﻿using Fiksu.Web;
-using Microsoft.Extensions.Primitives;
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace FiksuClassic.Web.Internal
@@ -9,7 +9,7 @@ namespace FiksuClassic.Web.Internal
     {
         private readonly NameValueCollection _query;
 
-        public StringValues this[string index] => _query.GetValues(index);
+        public IList<string> this[string index] => _query.GetValues(index);
 
         public NetClassicHttpQueryString(NameValueCollection query)
         {

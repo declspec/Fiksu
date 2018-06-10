@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Fiksu.Web
+namespace Fiksu.Web.Extensions
 {
     public static class CookieExtensions
     {

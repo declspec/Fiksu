@@ -1,5 +1,4 @@
 ﻿using Fiksu.Web;
-using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,20 +15,31 @@ namespace FiksuClassic.Web.Internal
             _headers = headers ?? throw new ArgumentNullException(nameof(headers));
         }
 
-        // TODO: StringValues isn't a first-class concept in Net Classic so see how well this holds up.
-        public StringValues this[string index]
+        public IList<string> this[string index]
         {
             get => _headers.GetValues(index);
             set => Add(index, value);
         }
 
-        public void Add(string key, StringValues value) => _headers.Set(key, value);
+        public void Add(string key, IList<string> values)
+        {
+            foreach (var val in values)
+                _headers.Add(key, val);
+        }
 
-        public IEnumerator<KeyValuePair<string, StringValues>> GetEnumerator()
+        public void Add(string key, string value)
+        {
+            _headers.Add(key, value);
+        }
+
+        public IEnumerator<KeyValuePair<string, IList<string>>> GetEnumerator()
         {
             var keys = _headers.AllKeys;
             foreach (var key in keys)
-                yield return new KeyValuePair<string, StringValues>(key, _headers[key]);
+            {
+                if (key != null)
+                    yield return new KeyValuePair<string, IList<string>>(key, _headers.GetValues(key));
+            }
         }
 
         public void Remove(string key)
@@ -37,9 +47,9 @@ namespace FiksuClassic.Web.Internal
             _headers.Remove(key);
         }
 
-        public bool TryGetValue(string key, out StringValues value)
+        public bool TryGetValues(string key, out IList<string> value)
         {
-            value = StringValues.Empty;
+            value = null;
 
             if (_headers[key] == null)
                 return Array.IndexOf(_headers.AllKeys, key) >= 0;

@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Primitives;
+﻿using System.Collections.Generic;
 
 namespace Fiksu.Web
 {
     public interface IHttpQueryString
     {
-        StringValues this[string index] { get; }
+        IList<string> this[string index] { get; }
     }
 }
