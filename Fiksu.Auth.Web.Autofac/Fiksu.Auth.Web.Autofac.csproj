@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fiksu.Auth.Autofac\Fiksu.Auth.Autofac.csproj" />
+    <ProjectReference Include="..\Fiksu.Auth\Fiksu.Auth.csproj" />
+    <ProjectReference Include="..\Fiksu.Web\Fiksu.Web.csproj" />
+  </ItemGroup>
+
+</Project>
