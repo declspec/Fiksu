@@ -5,7 +5,7 @@ using System.Web;
 
 namespace FiksuClassic.Web.Internal
 {
-    public class NetClassicHttpContext : IHttpContext
+    public class FiksuClassicHttpContext : IHttpContext
     {
         private readonly HttpContextBase _context;
 
@@ -14,12 +14,12 @@ namespace FiksuClassic.Web.Internal
 
         public IHttpRequest Request
         {
-            get => _request ?? (_request = new NetClassicHttpRequest(_context.Request));
+            get => _request ?? (_request = new FiksuClassicHttpRequest(_context.Request));
         }
 
         public IHttpResponse Response
         {
-            get => _response ?? (_response = new NetClassicHttpResponse(_context.Response));
+            get => _response ?? (_response = new FiksuClassicHttpResponse(_context.Response));
         }
         public IPrincipal User
         {
@@ -27,7 +27,7 @@ namespace FiksuClassic.Web.Internal
             set => _context.User = value;
         }
 
-        public NetClassicHttpContext(HttpContextBase context)
+        public FiksuClassicHttpContext(HttpContextBase context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }

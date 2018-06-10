@@ -42,13 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\HttpCookieExtensions.cs" />
-    <Compile Include="Internal\NetClassicHttpQueryString.cs" />
-    <Compile Include="Internal\NetClassicHttpRequestCookies.cs" />
-    <Compile Include="Internal\NetClassicHttpRequest.cs" />
-    <Compile Include="Internal\NetClassicHttpContext.cs" />
-    <Compile Include="Internal\NetClassicHttpResponse.cs" />
-    <Compile Include="Internal\NetClassicHttpHeaderDictionary.cs" />
-    <Compile Include="Internal\NetClassicHttpResponseCookies.cs" />
+    <Compile Include="Internal\FiksuClassicHttpQueryString.cs" />
+    <Compile Include="Internal\FiksuClassicHttpRequestCookies.cs" />
+    <Compile Include="Internal\FiksuClassicHttpRequest.cs" />
+    <Compile Include="Internal\FiksuClassicHttpContext.cs" />
+    <Compile Include="Internal\FiksuClassicHttpResponse.cs" />
+    <Compile Include="Internal\FiksuClassicHttpHeaderDictionary.cs" />
+    <Compile Include="Internal\FiksuClassicHttpResponseCookies.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@ using System.Web;
 
 namespace FiksuClassic.Web.Internal
 {
-    public class NetClassicHttpRequest : IHttpRequest
+    public class FiksuClassicHttpRequest : IHttpRequest
     {
         private readonly HttpRequestBase _request;
         private IHttpHeaderDictionary _headers;
@@ -23,20 +23,20 @@ namespace FiksuClassic.Web.Internal
 
         public IHttpHeaderDictionary Headers
         {
-            get => _headers ?? (_headers = new NetClassicHttpHeaderDictionary(_request.Headers));
+            get => _headers ?? (_headers = new FiksuClassicHttpHeaderDictionary(_request.Headers));
         }
 
         public IHttpQueryString QueryString
         {
-            get => _query ?? (_query = new NetClassicHttpQueryString(_request.QueryString));
+            get => _query ?? (_query = new FiksuClassicHttpQueryString(_request.QueryString));
         }
 
         public IHttpRequestCookies Cookies
         {
-            get => _cookies ?? (_cookies = new NetClassicHttpRequestCookies(_request.Cookies));
+            get => _cookies ?? (_cookies = new FiksuClassicHttpRequestCookies(_request.Cookies));
         }
 
-        public NetClassicHttpRequest(HttpRequestBase request)
+        public FiksuClassicHttpRequest(HttpRequestBase request)
         {
             _request = request ?? throw new ArgumentNullException(nameof(request));
         }

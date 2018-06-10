@@ -6,14 +6,14 @@ using System.Web;
 
 namespace FiksuClassic.Web.Internal
 {
-    public class NetClassicHttpRequestCookies : IHttpRequestCookies
+    public class FiksuClassicHttpRequestCookies : IHttpRequestCookies
     {
         private readonly HttpCookieCollection _cookies;
 
         public string this[string key] => _cookies[key]?.Value ?? string.Empty;
         public ICollection<string> Keys => _cookies.AllKeys;
 
-        public NetClassicHttpRequestCookies(HttpCookieCollection cookies)
+        public FiksuClassicHttpRequestCookies(HttpCookieCollection cookies)
         {
             _cookies = cookies ?? throw new ArgumentNullException(nameof(cookies));
         }

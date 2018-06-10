@@ -12,7 +12,7 @@ namespace FiksuClassic.Web.Autofac
         {
             builder.Register(ctx => environment).As<ExecutionEnvironment>().SingleInstance();
 
-            builder.Register(container => new NetClassicHttpContext(new HttpContextWrapper(HttpContext.Current)))
+            builder.Register(container => new FiksuClassicHttpContext(new HttpContextWrapper(HttpContext.Current)))
                 .As<IHttpContext>().InstancePerRequest();
         }
     }

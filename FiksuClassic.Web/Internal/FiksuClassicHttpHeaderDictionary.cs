@@ -6,11 +6,11 @@ using System.Collections.Specialized;
 
 namespace FiksuClassic.Web.Internal
 {
-    public class NetClassicHttpHeaderDictionary : IHttpHeaderDictionary
+    public class FiksuClassicHttpHeaderDictionary : IHttpHeaderDictionary
     {
         private readonly NameValueCollection _headers;
 
-        public NetClassicHttpHeaderDictionary(NameValueCollection headers)
+        public FiksuClassicHttpHeaderDictionary(NameValueCollection headers)
         {
             _headers = headers ?? throw new ArgumentNullException(nameof(headers));
         }

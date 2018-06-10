@@ -5,7 +5,7 @@ using System.Web;
 
 namespace FiksuClassic.Web.Internal
 {
-    public class NetClassicHttpResponse : IHttpResponse
+    public class FiksuClassicHttpResponse : IHttpResponse
     {
         private readonly HttpResponseBase _response;
         private IHttpHeaderDictionary _headers;
@@ -31,15 +31,15 @@ namespace FiksuClassic.Web.Internal
 
         public IHttpHeaderDictionary Headers
         {
-            get => _headers ?? (_headers = new NetClassicHttpHeaderDictionary(_response.Headers));
+            get => _headers ?? (_headers = new FiksuClassicHttpHeaderDictionary(_response.Headers));
         }
 
         public IHttpResponseCookies Cookies
         {
-            get => _cookies ?? (_cookies = new NetClassicHttpResponseCookies(_response.Cookies));
+            get => _cookies ?? (_cookies = new FiksuClassicHttpResponseCookies(_response.Cookies));
         }
 
-        public NetClassicHttpResponse(HttpResponseBase response)
+        public FiksuClassicHttpResponse(HttpResponseBase response)
         {
             _response = response ?? throw new ArgumentNullException(nameof(response));
         }

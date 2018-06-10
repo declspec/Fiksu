@@ -5,13 +5,13 @@ using System.Web;
 
 namespace FiksuClassic.Web.Internal
 {
-    public class NetClassicHttpResponseCookies : IHttpResponseCookies
+    public class FiksuClassicHttpResponseCookies : IHttpResponseCookies
     {
         private static readonly DateTimeOffset DefaultExpires = DateTimeOffset.UtcNow.AddYears(-10);
 
         private readonly HttpCookieCollection _cookies;
 
-        public NetClassicHttpResponseCookies(HttpCookieCollection cookies)
+        public FiksuClassicHttpResponseCookies(HttpCookieCollection cookies)
         {
             _cookies = cookies ?? throw new ArgumentNullException(nameof(cookies));
         }
