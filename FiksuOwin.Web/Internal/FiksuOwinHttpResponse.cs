@@ -23,12 +23,6 @@ namespace FiksuClassic.Web.Internal
             set => _response.StatusCode = (int)value;
         }
 
-        public string StatusDescription
-        {
-            get => _response.ReasonPhrase;
-            set => _response.ReasonPhrase = value;
-        }
-
         public IHttpHeaderDictionary Headers
         {
             get => _headers ?? (_headers = new FiksuOwinHttpHeaderDictionary(_response.Headers));
@@ -52,7 +46,6 @@ namespace FiksuClassic.Web.Internal
         public void Redirect(string url, bool permanent)
         {
             StatusCode = permanent ? HttpStatusCode.MovedPermanently : HttpStatusCode.Moved;
-            StatusDescription = "Moved Permanently";
             Headers.Add("Location", url);
         }
     }

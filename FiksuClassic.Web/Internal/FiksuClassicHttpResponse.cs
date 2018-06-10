@@ -23,12 +23,6 @@ namespace FiksuClassic.Web.Internal
             set => _response.StatusCode = (int)value;
         }
 
-        public string StatusDescription
-        {
-            get => _response.StatusDescription;
-            set => _response.StatusDescription = value;
-        }
-
         public IHttpHeaderDictionary Headers
         {
             get => _headers ?? (_headers = new FiksuClassicHttpHeaderDictionary(_response.Headers));

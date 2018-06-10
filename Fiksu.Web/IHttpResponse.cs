@@ -6,7 +6,6 @@ namespace Fiksu.Web
     {
         string ContentType { get; set; }
         HttpStatusCode StatusCode { get; set; }
-        string StatusDescription { get; set; }
         IHttpHeaderDictionary Headers { get; }
         IHttpResponseCookies Cookies { get; }
 

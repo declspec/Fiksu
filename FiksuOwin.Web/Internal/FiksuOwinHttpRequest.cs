@@ -20,7 +20,7 @@ namespace FiksuClassic.Web.Internal
 
         public bool IsSecure => _request.IsSecure;
 
-        public string Path => _request.Path.ToString();
+        public string Path => (_request.PathBase + _request.Path).ToString();
 
         public IHttpHeaderDictionary Headers
         {

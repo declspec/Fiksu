@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiksuClassic.Web.Http", "Fi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiksuOwin.Web", "FiksuOwin.Web\FiksuOwin.Web.csproj", "{D25BC353-3231-42A3-B868-D77D7728E95B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiksuCore.Web", "FiksuCore.Web\FiksuCore.Web.csproj", "{B695E38C-3EEF-4055-A541-B8CEEAF1304B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{D25BC353-3231-42A3-B868-D77D7728E95B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D25BC353-3231-42A3-B868-D77D7728E95B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D25BC353-3231-42A3-B868-D77D7728E95B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B695E38C-3EEF-4055-A541-B8CEEAF1304B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B695E38C-3EEF-4055-A541-B8CEEAF1304B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B695E38C-3EEF-4055-A541-B8CEEAF1304B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B695E38C-3EEF-4055-A541-B8CEEAF1304B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
