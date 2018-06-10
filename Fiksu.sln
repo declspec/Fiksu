@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiksuOwin.Web", "FiksuOwin.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiksuCore.Web", "FiksuCore.Web\FiksuCore.Web.csproj", "{B695E38C-3EEF-4055-A541-B8CEEAF1304B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiksuCore.Auth.Web", "FiksuCore.Auth.Web\FiksuCore.Auth.Web.csproj", "{24A213F6-0A49-499B-A07B-A60ECD99A80F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{B695E38C-3EEF-4055-A541-B8CEEAF1304B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B695E38C-3EEF-4055-A541-B8CEEAF1304B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B695E38C-3EEF-4055-A541-B8CEEAF1304B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24A213F6-0A49-499B-A07B-A60ECD99A80F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24A213F6-0A49-499B-A07B-A60ECD99A80F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24A213F6-0A49-499B-A07B-A60ECD99A80F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24A213F6-0A49-499B-A07B-A60ECD99A80F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
