@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiResponse.cs" />
     <Compile Include="Extensions\DependencyResolverExtensions.cs" />
     <Compile Include="Extensions\HttpRequestMessageExtensions.cs" />
     <Compile Include="Extensions\ModelStateExtensions.cs" />
@@ -51,6 +50,11 @@
       <Version>5.2.4</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Fiksu.Web.Http\Fiksu.Web.Http.csproj">
+      <Project>{DF3C6E4F-9D4E-4A40-B648-3CFEC8A9C6AA}</Project>
+      <Name>Fiksu.Web.Http</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

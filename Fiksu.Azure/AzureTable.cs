@@ -12,8 +12,8 @@ namespace Fiksu.Azure
         Task<IList<TEntity>> GetPartitionAsync(string partitionKey);
         Task<IList<TEntity>> GetEntitiesAsync(TableQuery<TEntity> query);
         Task<IList<TEntity>> GetAllEntitiesAsync();
-        Task CreateEntity(TEntity entity);
-        Task CreateOrUpdateEntity(TEntity entity);
+        Task CreateEntityAsync(TEntity entity);
+        Task CreateOrUpdateEntityAsync(TEntity entity);
     }
 
     public class AzureTable<TEntity> : IAzureTable<TEntity> where TEntity : class, ITableEntity, new()
@@ -74,13 +74,13 @@ namespace Fiksu.Azure
                 .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey)));
         }
 
-        public Task CreateEntity(TEntity entity)
+        public Task CreateEntityAsync(TEntity entity)
         {
             var operation = TableOperation.Insert(entity);
             return _table.ExecuteAsync(operation);
         }
 
-        public Task CreateOrUpdateEntity(TEntity entity)
+        public Task CreateOrUpdateEntityAsync(TEntity entity)
         {
             var operation = TableOperation.InsertOrReplace(entity);
             return _table.ExecuteAsync(operation);

@@ -4,7 +4,7 @@ using System;
 
 namespace FiksuCore.Web.Internal
 {
-    internal class FiksuCoreHttpRequest : IHttpRequest
+    public class FiksuCoreHttpRequest : IHttpRequest
     {
         private readonly HttpRequest _request;
         private IHttpQueryString _query;

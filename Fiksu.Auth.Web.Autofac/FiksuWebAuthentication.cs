@@ -11,10 +11,6 @@ namespace Fiksu.Auth.Web.Autofac
         public static AuthenticationBuilder AddFiksuAuthentication(this ContainerBuilder builder, IList<string> masqueradeRoles = null, IList<string> restrictedMasqueradeRoles = null)
         {
             // TODO: Investigate if 'SingleInstance' causes issues in future
-
-            builder.RegisterType<RoleClaimsProvider>().As<IClaimsProvider>()
-                .SingleInstance();
-
             builder.RegisterType<IdentityService>().As<IIdentityService>()
                 .SingleInstance();
 

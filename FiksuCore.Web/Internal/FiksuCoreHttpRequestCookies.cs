@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace FiksuCore.Web.Internal
 {
-    internal class FiksuCoreHttpRequestCookies : IHttpRequestCookies
+    public class FiksuCoreHttpRequestCookies : IHttpRequestCookies
     {
         private readonly IRequestCookieCollection _cookies;
 

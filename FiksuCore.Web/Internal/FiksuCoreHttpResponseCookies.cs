@@ -4,7 +4,7 @@ using System;
 
 namespace FiksuCore.Web.Internal
 {
-    internal class FiksuCoreHttpResponseCookies : IHttpResponseCookies
+    public class FiksuCoreHttpResponseCookies : IHttpResponseCookies
     {
         private readonly IResponseCookies _cookies;
 

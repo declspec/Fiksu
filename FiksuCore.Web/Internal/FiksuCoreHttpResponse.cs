@@ -5,7 +5,7 @@ using System.Net;
 
 namespace FiksuCore.Web.Internal
 {
-    internal class FiksuCoreHttpResponse : IHttpResponse
+    public class FiksuCoreHttpResponse : IHttpResponse
     {
         private readonly HttpResponse _response;
         private IHttpHeaderDictionary _headers;

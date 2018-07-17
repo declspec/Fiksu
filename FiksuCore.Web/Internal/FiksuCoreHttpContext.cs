@@ -6,7 +6,7 @@ using System.Security.Principal;
 
 namespace FiksuCore.Web.Internal
 {
-    internal class FiksuCoreHttpContext : IHttpContext
+    public class FiksuCoreHttpContext : IHttpContext
     {
         private readonly HttpContext _context;
         private IHttpRequest _request;

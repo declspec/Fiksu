@@ -8,7 +8,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace FiksuCore.Web.Internal
 {
-    internal class FiksuCoreHttpHeaderDictionary : IHttpHeaderDictionary
+    public class FiksuCoreHttpHeaderDictionary : IHttpHeaderDictionary
     {
         private readonly IHeaderDictionary _headers;
 

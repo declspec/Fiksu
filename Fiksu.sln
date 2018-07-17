@@ -29,9 +29,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiksuClassic.Web.Http", "Fi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiksuOwin.Web", "FiksuOwin.Web\FiksuOwin.Web.csproj", "{D25BC353-3231-42A3-B868-D77D7728E95B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiksuCore.Web", "FiksuCore.Web\FiksuCore.Web.csproj", "{B695E38C-3EEF-4055-A541-B8CEEAF1304B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FiksuCore.Web", "FiksuCore.Web\FiksuCore.Web.csproj", "{B695E38C-3EEF-4055-A541-B8CEEAF1304B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiksuCore.Auth.Web", "FiksuCore.Auth.Web\FiksuCore.Auth.Web.csproj", "{24A213F6-0A49-499B-A07B-A60ECD99A80F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FiksuCore.Auth.Web", "FiksuCore.Auth.Web\FiksuCore.Auth.Web.csproj", "{24A213F6-0A49-499B-A07B-A60ECD99A80F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FiksuCore.Web.Http", "FiksuCore.Web.Http\FiksuCore.Web.Http.csproj", "{B5E5093D-1F95-49EB-9E69-7B902A59807F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fiksu.Web.Http", "Fiksu.Web.Http\Fiksu.Web.Http.csproj", "{DF3C6E4F-9D4E-4A40-B648-3CFEC8A9C6AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiksu.Database", "Fiksu.Database\Fiksu.Database.csproj", "{F028CD69-E59B-49D2-903C-0EBC4CE9B73A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiksu.Database.Sqlite", "Fiksu.Database.Sqlite\Fiksu.Database.Sqlite.csproj", "{84665200-BC2A-4189-A0EB-C7E0A3051CD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +107,22 @@ Global
 		{24A213F6-0A49-499B-A07B-A60ECD99A80F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24A213F6-0A49-499B-A07B-A60ECD99A80F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24A213F6-0A49-499B-A07B-A60ECD99A80F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5E5093D-1F95-49EB-9E69-7B902A59807F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5E5093D-1F95-49EB-9E69-7B902A59807F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5E5093D-1F95-49EB-9E69-7B902A59807F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5E5093D-1F95-49EB-9E69-7B902A59807F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF3C6E4F-9D4E-4A40-B648-3CFEC8A9C6AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF3C6E4F-9D4E-4A40-B648-3CFEC8A9C6AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF3C6E4F-9D4E-4A40-B648-3CFEC8A9C6AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF3C6E4F-9D4E-4A40-B648-3CFEC8A9C6AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F028CD69-E59B-49D2-903C-0EBC4CE9B73A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F028CD69-E59B-49D2-903C-0EBC4CE9B73A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F028CD69-E59B-49D2-903C-0EBC4CE9B73A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F028CD69-E59B-49D2-903C-0EBC4CE9B73A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84665200-BC2A-4189-A0EB-C7E0A3051CD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84665200-BC2A-4189-A0EB-C7E0A3051CD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84665200-BC2A-4189-A0EB-C7E0A3051CD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84665200-BC2A-4189-A0EB-C7E0A3051CD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
