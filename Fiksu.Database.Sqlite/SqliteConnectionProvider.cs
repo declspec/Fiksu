@@ -11,12 +11,15 @@ namespace Fiksu.Database.Sqlite {
 
         private readonly AsyncObjectPool<IDbConnection> _pool;
 
+        public SqliteConnectionProvider(string connectionString)
+            : this(connectionString, DefaultPoolSize) { }
+
         public SqliteConnectionProvider(string connectionString, int poolSize) {
             if (poolSize <= 0)
                 throw new ArgumentOutOfRangeException(nameof(poolSize), "expected be a positive, non-zero integer");
 
             var factory = new Func<int, IDbConnection>(_ => {
-                var conn = new InternalSqliteConnection(connectionString);
+                var conn = new InternalSqliteConnection(_pool, connectionString);
                 conn.Open();
                 return conn;
             });
@@ -33,8 +36,11 @@ namespace Fiksu.Database.Sqlite {
         }
 
         private class InternalSqliteConnection : SqliteConnection {
-            public InternalSqliteConnection(string connectionString)
-                : base(connectionString) { }
+            private readonly AsyncObjectPool<IDbConnection> _pool;
+
+            public InternalSqliteConnection(AsyncObjectPool<IDbConnection> pool, string connectionString) : base(connectionString) {
+                _pool = pool;
+            }
 
             public override void Close() {
                 Close(false);
@@ -43,6 +49,8 @@ namespace Fiksu.Database.Sqlite {
             internal void Close(bool finalizing) {
                 if (finalizing)
                     base.Close();
+                else
+                    _pool.Release(this);
             }
         }
     }

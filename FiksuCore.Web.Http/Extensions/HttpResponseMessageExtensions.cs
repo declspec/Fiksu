@@ -20,17 +20,17 @@ namespace FiksuCore.Web.Http.Extensions
 
         public static IActionResult Success(this HttpResponse res, HttpStatusCode code, object data)
         {
-            return new ObjectResult(ApiResponse.Success(code, data));
+            return new ObjectResult(ApiResponse.Success(code, data)) { StatusCode = (int)code };
         }
 
         private static IActionResult Error(this HttpResponse res, HttpStatusCode code, string defaultMessage, IList<string> errors)
         {
-            return new ObjectResult(ApiResponse.Error(code, TransformErrors(defaultMessage, errors)));
+            return new ObjectResult(ApiResponse.Error(code, TransformErrors(defaultMessage, errors))) { StatusCode = (int)code };
         }
 
         private static IActionResult Error(this HttpResponse res, HttpStatusCode code, string defaultMessage, IList<Exception> errors)
         {
-            return new ObjectResult(ApiResponse.Error(code, TransformErrors(defaultMessage, errors)));
+            return new ObjectResult(ApiResponse.Error(code, TransformErrors(defaultMessage, errors))) { StatusCode = (int)code };
         }
 
         public static IActionResult Created(this HttpResponse res, object result)
