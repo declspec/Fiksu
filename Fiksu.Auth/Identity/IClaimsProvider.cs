@@ -2,13 +2,11 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Fiksu.Auth.Identity
-{
+namespace Fiksu.Auth.Identity {
     /// <summary>
     /// Provides a set of claims
     /// </summary>
-    public interface IClaimsProvider
-    {
+    public interface IClaimsProvider {
         /// <summary>
         /// Gets a set of claims from this provider for an identity (does not modify the identity)
         /// </summary>

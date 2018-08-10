@@ -1,9 +1,7 @@
 ﻿using System;
 
-namespace Fiksu.Web
-{
-    public class HttpCookieOptions : IHttpCookieOptions
-    {
+namespace Fiksu.Web {
+    public class HttpCookieOptions : IHttpCookieOptions {
         public string Domain { get; set; }
         public DateTimeOffset? Expires { get; set; }
         public bool HttpOnly { get; set; }

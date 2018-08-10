@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 
-namespace Fiksu.Web
-{
-    public interface IHttpHeaderDictionary : IEnumerable<KeyValuePair<string, IList<string>>>
-    {
+namespace Fiksu.Web {
+    public interface IHttpHeaderDictionary : IEnumerable<KeyValuePair<string, IList<string>>> {
         IList<string> this[string index] { get; set; }
 
         void Add(string key, string value);

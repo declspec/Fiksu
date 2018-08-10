@@ -1,8 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Fiksu.Auth
-{
+namespace Fiksu.Auth {
     /// <summary>
     /// Interface for creating a new masqueraded identity based on a target user
     /// </summary>
@@ -10,8 +9,7 @@ namespace Fiksu.Auth
     /// Unlike the old system, authentication of the original user is not performed 
     /// here, it should have been done previously. (i.e. by an <see cref="IActiveAuthenticationProvider"/>)
     /// </remarks>
-    public interface IMasqueradeProvider
-    {
+    public interface IMasqueradeProvider {
         /// <summary>
         /// Attempt to create a masqueraded identity for a target user based on an authenticated principal
         /// </summary>

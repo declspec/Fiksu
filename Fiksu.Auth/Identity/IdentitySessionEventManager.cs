@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Fiksu.Auth.Identity
-{
+namespace Fiksu.Auth.Identity {
     /// <summary>
     /// Aggregates event handlers and manages raising events around the Identity Session lifecycle
     /// </summary>
     /// <typeparam name="TContext">The context that the session is maintained in (i.e. HttpContextBase)</typeparam>
-    public interface IIdentitySessionEventManager<TContext>
-    {
+    public interface IIdentitySessionEventManager<TContext> {
         /// <summary>
         /// Fire off all <see cref="IdentitySessionEvent.SigningIn"/> handlers 
         /// </summary>
@@ -41,57 +39,44 @@ namespace Fiksu.Auth.Identity
         void OnSignedOut(TContext context);
     }
 
-    public class IdentitySessionEventManager<TContext> : IIdentitySessionEventManager<TContext>
-    {
+    public class IdentitySessionEventManager<TContext> : IIdentitySessionEventManager<TContext> {
         private readonly IEnumerable<IIdentitySessionEventHandler<TContext>> _handlers;
 
-        public IdentitySessionEventManager(IEnumerable<IIdentitySessionEventHandler<TContext>> handlers)
-        {
+        public IdentitySessionEventManager(IEnumerable<IIdentitySessionEventHandler<TContext>> handlers) {
             _handlers = handlers;
         }
 
-        public void OnSigningIn(TContext context)
-        {
+        public void OnSigningIn(TContext context) {
             RaiseEvent(IdentitySessionEvent.SigningIn, context);
         }
 
-        public void OnSignedIn(TContext context)
-        {
+        public void OnSignedIn(TContext context) {
             RaiseEvent(IdentitySessionEvent.SignedIn, context);
         }
 
-        public void OnRestoring(TContext context)
-        {
+        public void OnRestoring(TContext context) {
             RaiseEvent(IdentitySessionEvent.Restoring, context);
         }
 
-        public void OnRestored(TContext context)
-        {
+        public void OnRestored(TContext context) {
             RaiseEvent(IdentitySessionEvent.Restored, context);
         }
 
-        public void OnSigningOut(TContext context)
-        {
+        public void OnSigningOut(TContext context) {
             RaiseEvent(IdentitySessionEvent.SigningOut, context);
         }
 
-        public void OnSignedOut(TContext context)
-        {
+        public void OnSignedOut(TContext context) {
             RaiseEvent(IdentitySessionEvent.SignedOut, context);
         }
 
-        private void RaiseEvent(IdentitySessionEvent eventType, TContext context)
-        {
-            if (_handlers != null)
-            {
-                foreach (var handler in _handlers)
-                {
-                    try
-                    {
+        private void RaiseEvent(IdentitySessionEvent eventType, TContext context) {
+            if (_handlers != null) {
+                foreach (var handler in _handlers) {
+                    try {
                         handler.OnSessionEvent(eventType, context);
                     }
-                    catch (Exception)
-                    {
+                    catch (Exception) {
                         // TODO: Look at pulling handlers out of the set if they continually raise exceptions
                         // this may not happen much though.
                     }

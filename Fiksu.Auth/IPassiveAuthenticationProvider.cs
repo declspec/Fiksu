@@ -1,9 +1,7 @@
 ﻿using System.Threading.Tasks;
 
-namespace Fiksu.Auth
-{
-    public interface IPassiveAuthenticationProvider<TContext>
-    {
+namespace Fiksu.Auth {
+    public interface IPassiveAuthenticationProvider<TContext> {
         /// <summary>
         /// Attempt to passively authenticate a context for a specific environment
         /// </summary>

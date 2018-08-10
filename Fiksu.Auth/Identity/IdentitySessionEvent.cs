@@ -1,10 +1,8 @@
-﻿namespace Fiksu.Auth.Identity
-{
+﻿namespace Fiksu.Auth.Identity {
     /// <summary>
     /// Events that occur during an Identity Session's lifecycle
     /// </summary>
-    public enum IdentitySessionEvent
-    {
+    public enum IdentitySessionEvent {
         /// <summary>
         /// Raised when SignIn is called, but before doing any work.
         /// </summary>

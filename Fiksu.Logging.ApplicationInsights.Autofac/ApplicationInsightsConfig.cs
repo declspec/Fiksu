@@ -1,12 +1,9 @@
 ﻿using Fiksu.Logging.Autofac;
 using Microsoft.ApplicationInsights.Extensibility;
 
-namespace Fiksu.Logging.ApplicationInsights.Autofac
-{
-    public static class ApplicationInsightsConfig
-    {
-        public static LoggingBuilder AddApplicationInsights(this LoggingBuilder builder, ExecutionEnvironment environment, string instrumentationKey)
-        {
+namespace Fiksu.Logging.ApplicationInsights.Autofac {
+    public static class ApplicationInsightsConfig {
+        public static LoggingBuilder AddApplicationInsights(this LoggingBuilder builder, ExecutionEnvironment environment, string instrumentationKey) {
             var config = TelemetryConfiguration.Active;
 
             config.TelemetryChannel.DeveloperMode = environment == ExecutionEnvironment.Development;
@@ -14,8 +11,7 @@ namespace Fiksu.Logging.ApplicationInsights.Autofac
             config.DisableTelemetry = string.IsNullOrWhiteSpace(instrumentationKey);
 
             // Add to NLog
-            var aiTarget = new ApplicationInsightsTarget()
-            {
+            var aiTarget = new ApplicationInsightsTarget() {
                 Name = "ApplicationInsights",
                 InstrumentationKey = config.InstrumentationKey
             };

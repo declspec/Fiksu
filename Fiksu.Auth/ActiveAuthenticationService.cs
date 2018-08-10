@@ -5,10 +5,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Fiksu.Auth.Extensions;
 
-namespace Fiksu.Auth
-{
-    public interface IActiveAuthenticationService
-    {
+namespace Fiksu.Auth {
+    public interface IActiveAuthenticationService {
         /// <summary>
         /// Authenticate a user by their credentials against the current server environment
         /// </summary>
@@ -46,8 +44,7 @@ namespace Fiksu.Auth
         Task<AuthenticationResult> MasqueradeAsync(ClaimsPrincipal currentPrincipal, string targetUserName);
     }
 
-    public class ActiveAuthenticationService : IActiveAuthenticationService
-    {
+    public class ActiveAuthenticationService : IActiveAuthenticationService {
         private readonly ExecutionEnvironment _environment;
         private readonly IEnumerable<IActiveAuthenticationProvider> _authenticationProviders;
         private readonly IEnumerable<IMasqueradeProvider> _masqueradeProviders;
@@ -55,8 +52,7 @@ namespace Fiksu.Auth
         private readonly IList<string> _masqueradeRoles;
         private readonly IList<string> _restrictedMasqueradeRoles;
 
-        public ActiveAuthenticationService(ExecutionEnvironment environment, IEnumerable<IActiveAuthenticationProvider> authenticationProviders, IEnumerable<IMasqueradeProvider> masqueradeProviders, IList<string> masqueradeRoles = null, IList<string> restrictedMasqueradeRoles = null)
-        {
+        public ActiveAuthenticationService(ExecutionEnvironment environment, IEnumerable<IActiveAuthenticationProvider> authenticationProviders, IEnumerable<IMasqueradeProvider> masqueradeProviders, IList<string> masqueradeRoles = null, IList<string> restrictedMasqueradeRoles = null) {
             _environment = environment;
             _authenticationProviders = authenticationProviders;
             _masqueradeProviders = masqueradeProviders;
@@ -65,18 +61,15 @@ namespace Fiksu.Auth
             _restrictedMasqueradeRoles = restrictedMasqueradeRoles;
         }
 
-        public Task<AuthenticationResult> AuthenticateAsync(string userName, string password)
-        {
+        public Task<AuthenticationResult> AuthenticateAsync(string userName, string password) {
             return AuthenticateAsync(userName, password, _environment);
         }
 
-        public Task<AuthenticationResult> AuthenticateAsync(string userName, string password, ExecutionEnvironment environment)
-        {
+        public Task<AuthenticationResult> AuthenticateAsync(string userName, string password, ExecutionEnvironment environment) {
             return Identify(_authenticationProviders, provider => provider.AuthenticateAsync(userName, password, environment));
         }
 
-        public async Task<AuthenticationResult> MasqueradeAsync(ClaimsPrincipal principal, string targetUserName)
-        {
+        public async Task<AuthenticationResult> MasqueradeAsync(ClaimsPrincipal principal, string targetUserName) {
             if (principal == null)
                 throw new ArgumentNullException("principal");
 
@@ -98,16 +91,14 @@ namespace Fiksu.Auth
         }
 
         // Run through a list of providers and find the first successful one given a specific resolver
-        private static async Task<AuthenticationResult> Identify<TProvider>(IEnumerable<TProvider> providers, Func<TProvider, Task<AuthenticationResult>> resultResolver)
-        {
+        private static async Task<AuthenticationResult> Identify<TProvider>(IEnumerable<TProvider> providers, Func<TProvider, Task<AuthenticationResult>> resultResolver) {
             // If no providers are supplied, return an empty unsuccessful result.
             if (providers == null)
                 return AuthenticationResult.Skip;
 
             var failureResults = new HashSet<AuthenticationResult>();
 
-            foreach (var provider in providers)
-            {
+            foreach (var provider in providers) {
                 var result = await resultResolver(provider).ConfigureAwait(false);
 
                 if (result == null || result.Skipped)
@@ -119,8 +110,7 @@ namespace Fiksu.Auth
                 failureResults.Add(result);
             }
 
-            switch (failureResults.Count)
-            {
+            switch (failureResults.Count) {
                 case 0: return AuthenticationResult.Skip;
                 case 1: return failureResults.First();
                 default:
@@ -130,8 +120,7 @@ namespace Fiksu.Auth
             }
         }
 
-        private bool HasMasqueradePermission(ClaimsPrincipal principal)
-        {
+        private bool HasMasqueradePermission(ClaimsPrincipal principal) {
             // Has permission when masqueradeRoles is explicitly set to empty, 
             // or if the authentication service roles contains an approved role, 
             // or any role providers return an approved role for the user
@@ -139,8 +128,7 @@ namespace Fiksu.Auth
             return _masqueradeRoles != null && (_masqueradeRoles.Count == 0 || _masqueradeRoles.Any(role => principalRoles.Contains(role, StringComparer.OrdinalIgnoreCase)));
         }
 
-        private bool IsAccessibleMasqueradeTarget(ClaimsPrincipal principal, ClaimsIdentity targetIdentity)
-        {
+        private bool IsAccessibleMasqueradeTarget(ClaimsPrincipal principal, ClaimsIdentity targetIdentity) {
             if (_restrictedMasqueradeRoles == null)
                 return true;
 

@@ -41,7 +41,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fiksu.Database", "Fiksu.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fiksu.Database.Sqlite", "Fiksu.Database.Sqlite\Fiksu.Database.Sqlite.csproj", "{84665200-BC2A-4189-A0EB-C7E0A3051CD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiksuCore.Web.Routing", "FiksuCore.Web.Routing\FiksuCore.Web.Routing.csproj", "{4426CD63-B3C8-462B-87A3-C4688E6DE2D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FiksuCore.Web.Routing", "FiksuCore.Web.Routing\FiksuCore.Web.Routing.csproj", "{4426CD63-B3C8-462B-87A3-C4688E6DE2D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{664A3F37-F374-49E9-8A7E-84B8CEA15AE8}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

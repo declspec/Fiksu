@@ -6,53 +6,43 @@ using Fiksu.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
-namespace FiksuCore.Web.Internal
-{
-    public class FiksuCoreHttpHeaderDictionary : IHttpHeaderDictionary
-    {
+namespace FiksuCore.Web.Internal {
+    public class FiksuCoreHttpHeaderDictionary : IHttpHeaderDictionary {
         private readonly IHeaderDictionary _headers;
 
-        public IList<string> this[string index]
-        {
+        public IList<string> this[string index] {
             get => _headers[index];
             set => _headers[index] = new StringValues(value as string[] ?? value.ToArray());
         }
 
-        public FiksuCoreHttpHeaderDictionary(IHeaderDictionary headers)
-        {
+        public FiksuCoreHttpHeaderDictionary(IHeaderDictionary headers) {
             _headers = headers ?? throw new ArgumentNullException(nameof(headers));
         }
 
-        public void Add(string key, string value)
-        {
+        public void Add(string key, string value) {
             _headers.Append(key, value);
         }
 
-        public void Add(string key, IList<string> values)
-        {
+        public void Add(string key, IList<string> values) {
             _headers.Append(key, new StringValues(values as string[] ?? values.ToArray()));
         }
 
-        public void Remove(string key)
-        {
+        public void Remove(string key) {
             _headers.Remove(key);
         }
 
-        public bool TryGetValues(string key, out IList<string> value)
-        {
+        public bool TryGetValues(string key, out IList<string> value) {
             var success = _headers.TryGetValue(key, out var stringValues);
             value = stringValues;
             return success;
         }
 
-        public IEnumerator<KeyValuePair<string, IList<string>>> GetEnumerator()
-        {
+        public IEnumerator<KeyValuePair<string, IList<string>>> GetEnumerator() {
             foreach (var kvp in _headers)
                 yield return new KeyValuePair<string, IList<string>>(kvp.Key, kvp.Value);
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
+        IEnumerator IEnumerable.GetEnumerator() {
             return GetEnumerator();
         }
     }

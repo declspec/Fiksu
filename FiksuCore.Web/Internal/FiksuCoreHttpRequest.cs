@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using System;
 
-namespace FiksuCore.Web.Internal
-{
-    public class FiksuCoreHttpRequest : IHttpRequest
-    {
+namespace FiksuCore.Web.Internal {
+    public class FiksuCoreHttpRequest : IHttpRequest {
         private readonly HttpRequest _request;
         private IHttpQueryString _query;
         private IHttpRequestCookies _cookies;
@@ -17,23 +15,19 @@ namespace FiksuCore.Web.Internal
         public bool IsSecure => _request.IsHttps;
         public string Path => _request.PathBase + _request.Path;
 
-        public IHttpHeaderDictionary Headers
-        {
+        public IHttpHeaderDictionary Headers {
             get => _headers ?? (_headers = new FiksuCoreHttpHeaderDictionary(_request.Headers));
         }
 
-        public IHttpQueryString QueryString
-        {
+        public IHttpQueryString QueryString {
             get => _query ?? (_query = new FiksuCoreHttpQueryString(_request.Query));
         }
 
-        public IHttpRequestCookies Cookies
-        {
+        public IHttpRequestCookies Cookies {
             get => _cookies ?? (_cookies = new FiksuCoreHttpRequestCookies(_request.Cookies));
         }
 
-        public FiksuCoreHttpRequest(HttpRequest request)
-        {
+        public FiksuCoreHttpRequest(HttpRequest request) {
             _request = request ?? throw new ArgumentNullException(nameof(request));
         }
     }

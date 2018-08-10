@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace Fiksu.Auth
-{
+namespace Fiksu.Auth {
     /// <summary>
     /// Wrapper for an Authentication result, which can be either successful or unsuccessful,
     /// successful results should contain an authenticated identity, unsuccessful results should specify errors.
     /// </summary>
-    public class AuthenticationResult
-    {
+    public class AuthenticationResult {
         /// <summary>
         /// An error AuthenticationResult indicating bad credentials.
         /// </summary>
@@ -40,30 +38,25 @@ namespace Fiksu.Auth
         public IList<string> Errors { get; }
         public bool Skipped => !Successful && (Errors == null || Errors.Count == 0);
 
-        protected AuthenticationResult(ClaimsIdentity identity)
-        {
+        protected AuthenticationResult(ClaimsIdentity identity) {
             Identity = identity ?? throw new ArgumentNullException(nameof(identity));
             Successful = true;
         }
 
-        protected AuthenticationResult(IList<string> errors)
-        {
+        protected AuthenticationResult(IList<string> errors) {
             Errors = errors;
             Successful = false;
         }
 
-        public static AuthenticationResult Success(ClaimsIdentity identity)
-        {
+        public static AuthenticationResult Success(ClaimsIdentity identity) {
             return new AuthenticationResult(identity);
         }
 
-        public static AuthenticationResult Failure(IList<string> errors)
-        {
+        public static AuthenticationResult Failure(IList<string> errors) {
             return new AuthenticationResult(errors);
         }
 
-        public static AuthenticationResult Failure(string error)
-        {
+        public static AuthenticationResult Failure(string error) {
             return new AuthenticationResult(new[] { error });
         }
     }

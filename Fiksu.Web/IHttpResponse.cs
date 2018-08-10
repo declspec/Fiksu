@@ -1,9 +1,7 @@
 ﻿using System.Net;
 
-namespace Fiksu.Web
-{
-    public interface IHttpResponse
-    {
+namespace Fiksu.Web {
+    public interface IHttpResponse {
         string ContentType { get; set; }
         HttpStatusCode StatusCode { get; set; }
         IHttpHeaderDictionary Headers { get; }

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Fiksu.Logging
-{
-    public interface ILogger
-    {
+namespace Fiksu.Logging {
+    public interface ILogger {
         Task Debug(string message, params object[] arguments);
         Task Debug(Exception ex, string message, params object[] arguments);
 

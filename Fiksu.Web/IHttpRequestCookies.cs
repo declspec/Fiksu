@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 
-namespace Fiksu.Web
-{
-    public interface IHttpRequestCookies : IEnumerable<KeyValuePair<string, string>>
-    {
+namespace Fiksu.Web {
+    public interface IHttpRequestCookies : IEnumerable<KeyValuePair<string, string>> {
         string this[string key] { get; }
         ICollection<string> Keys { get; }
 

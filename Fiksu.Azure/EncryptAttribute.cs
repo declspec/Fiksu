@@ -1,9 +1,7 @@
 ﻿using System;
 
-namespace Fiksu.Azure
-{
+namespace Fiksu.Azure {
     [AttributeUsage(AttributeTargets.Property)]
-    public class EncryptAttribute : Attribute
-    {
+    public class EncryptAttribute : Attribute {
     }
 }

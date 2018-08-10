@@ -1,7 +1,5 @@
-﻿namespace Fiksu.Web
-{
-    public interface IHttpRequest
-    {
+﻿namespace Fiksu.Web {
+    public interface IHttpRequest {
         string ContentType { get; }
         long? ContentLength { get; }
         string Method { get; }

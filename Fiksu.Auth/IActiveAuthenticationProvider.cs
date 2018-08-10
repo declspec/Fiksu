@@ -1,12 +1,10 @@
 ﻿using System.Threading.Tasks;
 
-namespace Fiksu.Auth
-{
+namespace Fiksu.Auth {
     /// <summary>
     /// An active authentication (username/password) provider
     /// </summary>
-    public interface IActiveAuthenticationProvider
-    {
+    public interface IActiveAuthenticationProvider {
         /// <summary>
         /// Attempt to authenticate a username/password combination against a particular environment.
         /// </summary>

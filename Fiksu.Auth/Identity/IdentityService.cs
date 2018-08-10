@@ -4,13 +4,11 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 
-namespace Fiksu.Auth.Identity
-{
+namespace Fiksu.Auth.Identity {
     /// <summary>
     /// Handles common ways to create an identity.
     /// </summary>
-    public interface IIdentityService
-    {
+    public interface IIdentityService {
         /// <summary>
         /// Create a user's identity based off their name for a particular authentication type 
         /// </summary>
@@ -104,57 +102,46 @@ namespace Fiksu.Auth.Identity
         Task<ClaimsIdentity> CreateAsync(IIdentity identity);
     }
 
-    public class IdentityService : IIdentityService
-    {
+    public class IdentityService : IIdentityService {
         private readonly IEnumerable<IClaimsProvider> _claimsProviders;
 
-        public IdentityService(IEnumerable<IClaimsProvider> claimsProviders)
-        {
+        public IdentityService(IEnumerable<IClaimsProvider> claimsProviders) {
             _claimsProviders = claimsProviders;
         }
 
-        public Task<ClaimsIdentity> CreateAsync(string authenticationType, string username)
-        {
+        public Task<ClaimsIdentity> CreateAsync(string authenticationType, string username) {
             return CreateAsync(authenticationType, username, Enumerable.Empty<Claim>());
         }
 
-        public Task<ClaimsIdentity> CreateAsync(string authenticationType, string username, params string[] roles)
-        {
+        public Task<ClaimsIdentity> CreateAsync(string authenticationType, string username, params string[] roles) {
             return CreateAsync(authenticationType, username, ToRoleClaims(roles));
         }
 
-        public Task<ClaimsIdentity> CreateAsync(string authenticationType, string username, IEnumerable<string> roles)
-        {
+        public Task<ClaimsIdentity> CreateAsync(string authenticationType, string username, IEnumerable<string> roles) {
             return CreateAsync(authenticationType, username, ToRoleClaims(roles));
         }
 
-        public Task<ClaimsIdentity> CreateAsync(string authenticationType, string username, params Claim[] claims)
-        {
+        public Task<ClaimsIdentity> CreateAsync(string authenticationType, string username, params Claim[] claims) {
             return CreateAsync(authenticationType, username, (IEnumerable<Claim>)claims);
         }
 
-        public Task<ClaimsIdentity> CreateAsync(string authenticationType, string username, string role, params Claim[] claims)
-        {
+        public Task<ClaimsIdentity> CreateAsync(string authenticationType, string username, string role, params Claim[] claims) {
             return CreateAsync(authenticationType, username, Enumerable.Repeat(role, 1), claims);
         }
 
-        public Task<ClaimsIdentity> CreateAsync(string authenticationType, string username, string role, IEnumerable<Claim> claims)
-        {
+        public Task<ClaimsIdentity> CreateAsync(string authenticationType, string username, string role, IEnumerable<Claim> claims) {
             return CreateAsync(authenticationType, username, Enumerable.Repeat(role, 1), claims);
         }
 
-        public Task<ClaimsIdentity> CreateAsync(string authenticationType, string username, IEnumerable<string> roles, params Claim[] claims)
-        {
+        public Task<ClaimsIdentity> CreateAsync(string authenticationType, string username, IEnumerable<string> roles, params Claim[] claims) {
             return CreateAsync(authenticationType, username, roles, (IEnumerable<Claim>)claims);
         }
 
-        public Task<ClaimsIdentity> CreateAsync(string authenticationType, string username, IEnumerable<string> roles, IEnumerable<Claim> claims)
-        {
+        public Task<ClaimsIdentity> CreateAsync(string authenticationType, string username, IEnumerable<string> roles, IEnumerable<Claim> claims) {
             return CreateAsync(authenticationType, username, ToRoleClaims(roles).Concat(claims));
         }
 
-        public async Task<ClaimsIdentity> CreateAsync(string authenticationType, string username, IEnumerable<Claim> claims)
-        {
+        public async Task<ClaimsIdentity> CreateAsync(string authenticationType, string username, IEnumerable<Claim> claims) {
             var identity = new ClaimsIdentity(authenticationType);
             identity.AddClaim(new Claim(identity.NameClaimType, username.ToUpper()));
 
@@ -165,35 +152,29 @@ namespace Fiksu.Auth.Identity
             return identity;
         }
 
-        public async Task<ClaimsIdentity> CreateAsync(IIdentity identity)
-        {
+        public async Task<ClaimsIdentity> CreateAsync(IIdentity identity) {
             var claimsIdentity = new ClaimsIdentity(identity);
             await AttachClaims(claimsIdentity).ConfigureAwait(false);
             return claimsIdentity;
         }
 
-        private async Task AttachClaims(ClaimsIdentity identity)
-        {
-            if (_claimsProviders != null)
-            {
+        private async Task AttachClaims(ClaimsIdentity identity) {
+            if (_claimsProviders != null) {
                 var claimsTasks = _claimsProviders.Select(p => p.GetClaimsAsync(identity));
                 var results = await Task.WhenAll(claimsTasks).ConfigureAwait(false);
 
-                foreach (var result in results)
-                {
+                foreach (var result in results) {
                     if (result != null)
                         identity.AddClaims(result);
                 }
             }
         }
 
-        private static IEnumerable<Claim> ToRoleClaims(IEnumerable<string> roles)
-        {
+        private static IEnumerable<Claim> ToRoleClaims(IEnumerable<string> roles) {
             if (roles == null)
                 yield break;
 
-            foreach(var role in roles)
-            {
+            foreach (var role in roles) {
                 if (!string.IsNullOrEmpty(role))
                     yield return new Claim(ClaimsIdentity.DefaultRoleClaimType, role);
             }

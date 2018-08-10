@@ -2,10 +2,8 @@
 using Microsoft.Owin;
 using System;
 
-namespace FiksuClassic.Web.Internal
-{
-    public class FiksuOwinHttpRequest : IHttpRequest
-    {
+namespace FiksuClassic.Web.Internal {
+    public class FiksuOwinHttpRequest : IHttpRequest {
         private readonly IOwinRequest _request;
 
         private IHttpHeaderDictionary _headers;
@@ -22,23 +20,19 @@ namespace FiksuClassic.Web.Internal
 
         public string Path => (_request.PathBase + _request.Path).ToString();
 
-        public IHttpHeaderDictionary Headers
-        {
+        public IHttpHeaderDictionary Headers {
             get => _headers ?? (_headers = new FiksuOwinHttpHeaderDictionary(_request.Headers));
         }
 
-        public IHttpQueryString QueryString
-        {
+        public IHttpQueryString QueryString {
             get => _query ?? (_query = new FiksuOwinHttpQueryString(_request.Query));
         }
 
-        public IHttpRequestCookies Cookies
-        {
+        public IHttpRequestCookies Cookies {
             get => _cookies ?? (_cookies = new FiksuOwinHttpRequestCookies(_request.Cookies));
         }
 
-        public FiksuOwinHttpRequest(IOwinRequest request)
-        {
+        public FiksuOwinHttpRequest(IOwinRequest request) {
             _request = request ?? throw new ArgumentNullException(nameof(request));
         }
     }

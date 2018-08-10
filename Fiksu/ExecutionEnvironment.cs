@@ -1,7 +1,5 @@
-﻿namespace Fiksu
-{
-    public enum ExecutionEnvironment
-    {
+﻿namespace Fiksu {
+    public enum ExecutionEnvironment {
         Development,
         Test,
         Production

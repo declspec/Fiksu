@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace FiksuCore.Web.Routing {
     public static class RegexRouteFinder {
-        private static Regex ControllerNamePattern = new Regex("Controller$", RegexOptions.Compiled);
+        private static readonly Regex ControllerNamePattern = new Regex("Controller$", RegexOptions.Compiled);
 
         public static IEnumerable<RegexRoute> FindAll(params Assembly[] assemblies) {
             var controllerBaseType = typeof(ControllerBase);

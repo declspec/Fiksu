@@ -4,18 +4,15 @@ using System.Collections.Generic;
 using Fiksu.Web;
 using Microsoft.AspNetCore.Http;
 
-namespace FiksuCore.Web.Internal
-{
-    public class FiksuCoreHttpRequestCookies : IHttpRequestCookies
-    {
+namespace FiksuCore.Web.Internal {
+    public class FiksuCoreHttpRequestCookies : IHttpRequestCookies {
         private readonly IRequestCookieCollection _cookies;
 
         public string this[string key] => _cookies[key];
         public int Count => _cookies.Count;
         public ICollection<string> Keys => _cookies.Keys;
 
-        public FiksuCoreHttpRequestCookies(IRequestCookieCollection cookies)
-        {
+        public FiksuCoreHttpRequestCookies(IRequestCookieCollection cookies) {
             _cookies = cookies ?? throw new ArgumentNullException(nameof(cookies));
         }
 

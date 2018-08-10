@@ -2,28 +2,22 @@
 using Microsoft.Owin;
 using System;
 
-namespace FiksuClassic.Web.Internal
-{
-    public class FiksuOwinHttpResponseCookies : IHttpResponseCookies
-    {
+namespace FiksuClassic.Web.Internal {
+    public class FiksuOwinHttpResponseCookies : IHttpResponseCookies {
         private static readonly DateTimeOffset DefaultExpires = DateTimeOffset.UtcNow.AddYears(-10);
 
         private readonly ResponseCookieCollection _cookies;
 
-        public FiksuOwinHttpResponseCookies(ResponseCookieCollection cookies)
-        {
+        public FiksuOwinHttpResponseCookies(ResponseCookieCollection cookies) {
             _cookies = cookies ?? throw new ArgumentNullException(nameof(cookies));
         }
 
-        public void Add(string key, string value)
-        {
+        public void Add(string key, string value) {
             _cookies.Append(key, value);
         }
 
-        public void Add(string key, string value, IHttpCookieOptions options)
-        {
-            _cookies.Append(key, value, new CookieOptions()
-            {
+        public void Add(string key, string value, IHttpCookieOptions options) {
+            _cookies.Append(key, value, new CookieOptions() {
                 Domain = options.Domain,
                 Path = options.Path,
                 Expires = options.Expires?.DateTime ?? DateTime.MinValue,
@@ -32,13 +26,11 @@ namespace FiksuClassic.Web.Internal
             });
         }
 
-        public void Expire(string key)
-        {
+        public void Expire(string key) {
             Expire(key, null);
         }
 
-        public void Expire(string key, IHttpCookieOptions options)
-        {
+        public void Expire(string key, IHttpCookieOptions options) {
             options = options ?? new HttpCookieOptions();
             options.Expires = DefaultExpires;
 

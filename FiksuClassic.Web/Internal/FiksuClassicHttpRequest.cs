@@ -2,10 +2,8 @@
 using System;
 using System.Web;
 
-namespace FiksuClassic.Web.Internal
-{
-    public class FiksuClassicHttpRequest : IHttpRequest
-    {
+namespace FiksuClassic.Web.Internal {
+    public class FiksuClassicHttpRequest : IHttpRequest {
         private readonly HttpRequestBase _request;
         private IHttpHeaderDictionary _headers;
         private IHttpRequestCookies _cookies;
@@ -21,23 +19,19 @@ namespace FiksuClassic.Web.Internal
 
         public string Path => _request.Path;
 
-        public IHttpHeaderDictionary Headers
-        {
+        public IHttpHeaderDictionary Headers {
             get => _headers ?? (_headers = new FiksuClassicHttpHeaderDictionary(_request.Headers));
         }
 
-        public IHttpQueryString QueryString
-        {
+        public IHttpQueryString QueryString {
             get => _query ?? (_query = new FiksuClassicHttpQueryString(_request.QueryString));
         }
 
-        public IHttpRequestCookies Cookies
-        {
+        public IHttpRequestCookies Cookies {
             get => _cookies ?? (_cookies = new FiksuClassicHttpRequestCookies(_request.Cookies));
         }
 
-        public FiksuClassicHttpRequest(HttpRequestBase request)
-        {
+        public FiksuClassicHttpRequest(HttpRequestBase request) {
             _request = request ?? throw new ArgumentNullException(nameof(request));
         }
     }

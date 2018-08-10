@@ -2,27 +2,22 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Fiksu.Serialization
-{
-    public static class ObjectConvert
-    {
+namespace Fiksu.Serialization {
+    public static class ObjectConvert {
         [ThreadStatic]
         private static BinaryFormatter _formatter;
 
-        public static string ToBase64(object obj)
-        {
+        public static string ToBase64(object obj) {
             if (_formatter == null)
                 _formatter = new BinaryFormatter();
 
-            using(var ms = new MemoryStream())
-            {
+            using (var ms = new MemoryStream()) {
                 _formatter.Serialize(ms, obj);
                 return Convert.ToBase64String(ms.ToArray());
             }
         }
 
-        public static T FromBase64<T>(string encoded)
-        {
+        public static T FromBase64<T>(string encoded) {
             if (_formatter == null)
                 _formatter = new BinaryFormatter();
 

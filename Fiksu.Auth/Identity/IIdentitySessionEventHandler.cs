@@ -1,5 +1,4 @@
-﻿namespace Fiksu.Auth.Identity
-{
+﻿namespace Fiksu.Auth.Identity {
     /// <summary>
     /// Handler for Identity Session lifecycle events in a specific context
     /// <seealso cref="IIdentitySessionEventManager{TContext}"/> <seealso cref="IIdentitySessionManager"/>
@@ -11,8 +10,7 @@
     /// the identity session lifecycle just by implementing the interface (and being registered in the DI container).
     /// This allows a class to clean up any state it's created (i.e. remote sessions) as the lifecycle changes.
     /// </remarks>
-    public interface IIdentitySessionEventHandler<TContext>
-    {
+    public interface IIdentitySessionEventHandler<TContext> {
         /// <summary>
         /// Invoked whenever an <see cref="IdentitySessionEvent"/> is raised 
         /// </summary>

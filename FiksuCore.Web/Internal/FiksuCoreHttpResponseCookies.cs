@@ -2,34 +2,27 @@
 using Microsoft.AspNetCore.Http;
 using System;
 
-namespace FiksuCore.Web.Internal
-{
-    public class FiksuCoreHttpResponseCookies : IHttpResponseCookies
-    {
+namespace FiksuCore.Web.Internal {
+    public class FiksuCoreHttpResponseCookies : IHttpResponseCookies {
         private readonly IResponseCookies _cookies;
 
-        public FiksuCoreHttpResponseCookies(IResponseCookies cookies)
-        {
+        public FiksuCoreHttpResponseCookies(IResponseCookies cookies) {
             _cookies = cookies ?? throw new ArgumentNullException(nameof(cookies));
         }
 
-        public void Add(string key, string value)
-        {
+        public void Add(string key, string value) {
             _cookies.Append(key, value);
         }
 
-        public void Add(string key, string value, IHttpCookieOptions options)
-        {
+        public void Add(string key, string value, IHttpCookieOptions options) {
             _cookies.Append(key, value, ToCookieOptions(options));
         }
 
-        public void Expire(string key)
-        {
+        public void Expire(string key) {
             _cookies.Delete(key);
         }
 
-        public void Expire(string key, IHttpCookieOptions options)
-        {
+        public void Expire(string key, IHttpCookieOptions options) {
             _cookies.Delete(key, ToCookieOptions(options));
         }
 
@@ -39,10 +32,8 @@ namespace FiksuCore.Web.Internal
         public void Remove(string key) => _cookies.Delete(key);
         public void Remove(string key, IHttpCookieOptions options) => _cookies.Delete(key, ToCookieOptions(options));
         */
-        private static CookieOptions ToCookieOptions(IHttpCookieOptions options)
-        {
-            return options as CookieOptions ?? new CookieOptions()
-            {
+        private static CookieOptions ToCookieOptions(IHttpCookieOptions options) {
+            return options as CookieOptions ?? new CookieOptions() {
                 Domain = options.Domain,
                 Expires = options.Expires,
                 HttpOnly = options.HttpOnly,
