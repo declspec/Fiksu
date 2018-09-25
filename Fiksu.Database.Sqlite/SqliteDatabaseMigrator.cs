@@ -7,6 +7,8 @@ using System.Reflection;
 
 namespace Fiksu.Database.Sqlite {
     public class SqliteDatabaseMigrator : IDatabaseMigrator {
+        private static readonly Type MigrationType = typeof(IMigration);
+
         private const string CreateVersionInfoTableDdl =
             @"CREATE TABLE IF NOT EXISTS version_info (
                 version         INTEGER PRIMARY KEY,
@@ -15,11 +17,17 @@ namespace Fiksu.Database.Sqlite {
             ) WITHOUT ROWID";
 
         private readonly IDbConnection _connection;
-        private readonly Assembly _migrationAssembly;
+        private readonly IList<Assembly> _migrationAssemblies;
 
-        public SqliteDatabaseMigrator(IDbConnection connection, Assembly migrationAssembly) {
+        public SqliteDatabaseMigrator(IDbConnection connection, params Assembly[] migrationAssemblies) {
+            if (connection == null || migrationAssemblies == null)
+                throw new ArgumentNullException(connection == null ? nameof(connection) : nameof(migrationAssemblies));
+
+            if (migrationAssemblies.Length == 0)
+                throw new ArgumentOutOfRangeException(nameof(migrationAssemblies), "Must specify at least one assembly to retrieve migrations from");
+
             _connection = connection;
-            _migrationAssembly = migrationAssembly;
+            _migrationAssemblies = migrationAssemblies;
         }
 
         public void MigrateToLatest() {
@@ -41,11 +49,9 @@ namespace Fiksu.Database.Sqlite {
             var migrationType = typeof(IMigration);
             var completed = new Stack<MigrationOperation>();
 
-            var migrations = _migrationAssembly.GetTypes()
-                .Where(migrationType.IsAssignableFrom)
-                .Select(t => new { Type = t, Attribute = t.GetTypeInfo().GetCustomAttribute<MigrationAttribute>() })
-                .Where(a => a.Attribute != null && a.Attribute.Version > from && a.Attribute.Version < version)
-                .OrderBy(a => a.Attribute.Version);
+            var migrations = FindMetadata()
+                .Where(m => m.Attribute.Version > from && m.Attribute.Version < version)
+                .OrderBy(m => m.Attribute.Version);
 
             try {
                 foreach (var m in migrations) {
@@ -70,11 +76,9 @@ namespace Fiksu.Database.Sqlite {
 
             var todo = _connection.Query<long>("SELECT version FROM version_info WHERE version > @Version", new { Version = version });
 
-            var migrations = _migrationAssembly.GetTypes()
-                .Where(migrationType.IsAssignableFrom)
-                .Select(t => new { Type = t, Attribute = t.GetTypeInfo().GetCustomAttribute<MigrationAttribute>() })
-                .Where(a => a.Attribute != null && todo.Contains(a.Attribute.Version))
-                .OrderByDescending(a => a.Attribute.Version);
+            var migrations = FindMetadata()
+                .Where(m => todo.Contains(m.Attribute.Version))
+                .OrderByDescending(m => m.Attribute.Version);
 
             try {
                 foreach (var m in migrations) {
@@ -114,6 +118,22 @@ namespace Fiksu.Database.Sqlite {
                 var current = migrations.Pop();
                 current.Migration.Up(_connection);
                 _connection.Execute("INSERT INTO version_info(version,title,date_created) VALUES(@version,@title,current_timestamp)", new { version = current.Version, title = current.Title });
+            }
+        }
+
+        private IEnumerable<MigrationMetadata> FindMetadata() {
+            return _migrationAssemblies.SelectMany(a => a.GetTypes().Where(MigrationType.IsAssignableFrom))
+                .Select(t => new MigrationMetadata(t, t.GetTypeInfo().GetCustomAttribute<MigrationAttribute>()))
+                .Where(m => m.Attribute != null);
+        }
+
+        private class MigrationMetadata {
+            public Type Type { get; }
+            public MigrationAttribute Attribute { get; }
+
+            public MigrationMetadata(Type type, MigrationAttribute attribute) {
+                Type = type;
+                Attribute = attribute;
             }
         }
 
