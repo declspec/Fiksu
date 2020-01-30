@@ -9,7 +9,8 @@ namespace Fiksu.Database.Sqlite {
     public class SqliteConnectionProvider : IDbConnectionProvider {
         private const int DefaultPoolSize = 10;
 
-        private readonly AsyncObjectPool<IDbConnection> _pool;
+        private readonly AsyncValuePool<IDbConnection> _pool;
+        private readonly PooledObject<InternalSqliteConnection>[] _leased;
 
         public SqliteConnectionProvider(string connectionString)
             : this(connectionString, DefaultPoolSize) { }
@@ -18,39 +19,30 @@ namespace Fiksu.Database.Sqlite {
             if (poolSize <= 0)
                 throw new ArgumentOutOfRangeException(nameof(poolSize), "expected be a positive, non-zero integer");
 
-            var factory = new Func<int, IDbConnection>(_ => {
-                var conn = new InternalSqliteConnection(_pool, connectionString);
-                conn.Open();
-                return conn;
+            _pool = new AsyncValuePool<IDbConnection>(poolSize, _ => {
+                var connection = new InternalSqliteConnection(connectionString, this);
+                connection.Open();
+                return connection;
             });
-
-            _pool = new AsyncObjectPool<IDbConnection>(poolSize, factory, (_, conn) => ((InternalSqliteConnection)conn).Close());
-        }
-
-        public Task<IDbConnection> GetConnectionAsync() {
-            return GetConnectionAsync(CancellationToken.None);
         }
 
         public Task<IDbConnection> GetConnectionAsync(CancellationToken cancellationToken) {
             return _pool.AcquireAsync(cancellationToken);
         }
 
-        private class InternalSqliteConnection : SqliteConnection {
-            private readonly AsyncObjectPool<IDbConnection> _pool;
+        private void ReturnConnectionToPool(InternalSqliteConnection connection) {
+            _pool.Release(connection);
+        }
 
-            public InternalSqliteConnection(AsyncObjectPool<IDbConnection> pool, string connectionString) : base(connectionString) {
-                _pool = pool;
+        private class InternalSqliteConnection : SqliteConnection {
+            private readonly SqliteConnectionProvider _owner;
+
+            public InternalSqliteConnection(string connectionString, SqliteConnectionProvider owner) : base(connectionString) {
+                _owner = owner;
             }
 
             public override void Close() {
-                Close(false);
-            }
-
-            internal void Close(bool finalizing) {
-                if (finalizing)
-                    base.Close();
-                else
-                    _pool.Release(this);
+                _owner.ReturnConnectionToPool(this);
             }
         }
     }
