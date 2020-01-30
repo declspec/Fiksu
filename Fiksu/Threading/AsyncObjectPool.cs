@@ -1,137 +1,131 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Fiksu.Threading {
-    public class AsyncObjectPool<T> where T : class {
-        private const int Borrowed = 1;
-        private const int Available = 0;
+    public struct PooledObject<T> : IDisposable {
+        public T Value { get; }
+        public int Index { get; private set; }
 
-        private static readonly Func<Task<T>, object, T> Disposer = (task, state) => {
-            ((IDisposable)state).Dispose();
-            return task.Result;
-        };
+        private readonly AsyncObjectPool<T> _pool;
 
-        private static readonly Action<object> Canceller = (state) => {
-            ((TaskCompletionSource<T>)state).TrySetCanceled();
-        };
+        internal PooledObject(T value, int poolIndex, AsyncObjectPool<T> pool) {
+            Value = value;
+            Index = poolIndex;
+            _pool = pool;
+        }
 
-        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
-        private readonly Queue<TaskCompletionSource<T>> _waiting = new Queue<TaskCompletionSource<T>>();
-        private readonly PoolRef[] _pool;
+        public void Destroy() {
+            Release(true);
+        }
+
+        public void Dispose() {
+            Release(false);
+        }
+
+        private void Release(bool destroy) {
+            if (Index >= 0 && _pool != null) {
+                var index = Index;
+                Index = -1;
+                _pool.Release(index, destroy);
+            }
+        }
+    }
+
+    public class AsyncObjectPool<T> {
+        private static readonly Task<bool> SuccessfulTask = Task.FromResult(true);
+
+        private const int ObjectUnset = 0;
+        private const int ObjectFree = 1;
+        private const int ObjectBorrowed = 2;
+
+        private readonly PoolRef[] _refs;
         private readonly Func<int, T> _factory;
-        private readonly Action<int, T> _finalizer;
 
-        public AsyncObjectPool(int capacity, Func<int, T> factory)
-            : this(capacity, factory, null) { }
+        private TaskCompletionSource<bool> _waiter;
 
-        public AsyncObjectPool(int capacity, Func<int, T> factory, Action<int, T> finalizer) {
-            _pool = new PoolRef[capacity];
-            _factory = factory ?? throw new ArgumentNullException(nameof(factory));
-            _finalizer = finalizer;
+        public AsyncObjectPool(int capacity, Func<int, T> generator) {
+            _factory = generator ?? throw new ArgumentNullException(nameof(generator));
+            // TODO: Could do some work here around creating a sparse array
+            //  to avoid allocating all the references up-front, but this is far simpler
+            _refs = new PoolRef[capacity];
         }
 
-        public Task<T> AcquireAsync(CancellationToken token) {
-            // Fast path; there's an available object
-            for (var i = 0; i < _pool.Length; ++i) {
-                if (Interlocked.CompareExchange(ref _pool[i].State, Borrowed, Available) == Available)
-                    return _pool[i].Task ?? (_pool[i].Task = Task.FromResult(_factory(i)));
-            }
+        public bool TryAquire(out PooledObject<T> value) {
+            // Try and be somewhat fair and avoid out-racing anyone who is already waiting
+            if (_waiter == null) {
+                for (var i = 0; i < _refs.Length; ++i) {
+                    var oldState = _refs[i].State;
 
-            var wait = _semaphore.WaitAsync(token);
-            return wait.IsCompleted ? EnqueueWaiter(token) : EnqueueWaiterAfter(wait, token);
-        }
+                    if (oldState < ObjectBorrowed && Interlocked.CompareExchange(ref _refs[i].State, ObjectBorrowed, oldState) == oldState) {
+                        if (oldState == ObjectUnset) {
+                            try {
+                                _refs[i].Object = _factory(i);
+                            }
+                            catch {
+                                // Avoid locking the space in the pool
+                                _refs[i].State = ObjectUnset;
+                                throw;
+                            }
+                        }
 
-        public void Release(T obj) {
-            // TODO: Make Release return a Task? Or just leave this synchronous
-            var pos = FindObjectIndex(obj);
-            _semaphore.Wait();
-
-            try {
-                // Try and give it away to the first incomplete waiter
-                TaskCompletionSource<T> tcs = null;
-
-                while (_waiting.Count > 0) {
-                    tcs = _waiting.Dequeue();
-
-                    if (tcs.TrySetResult(obj))
-                        break;
-                }
-
-                // If nothing was waiting, indicate that the slot is now free.
-                if (tcs == null)
-                    _pool[pos].State = Available;
-            }
-            finally {
-                _semaphore.Release();
-            }
-        }
-
-        public void Remove(T obj) {
-            // TODO: Make Remove return a Task? Or just leave this synchronous
-            var pos = FindObjectIndex(obj);
-            _finalizer?.Invoke(pos, obj);
-            _semaphore.Wait();
-
-            try {
-                // Should we give away the slot?
-                TaskCompletionSource<T> tcs = null;
-                T newObj = null;
-
-                while (_waiting.Count > 0) {
-                    tcs = _waiting.Dequeue();
-
-                    // Ensure the factory is only called once
-                    if (newObj == null) {
-                        newObj = _factory(pos);
-                        _pool[pos].Task = Task.FromResult(newObj);
+                        value = new PooledObject<T>(_refs[i].Object, i, this);
+                        return true;
                     }
-
-                    if (tcs.TrySetResult(newObj))
-                        break;
                 }
 
-                // If nothing was waiting, indicate that the slot is now free.
-                if (tcs == null)
-                    _pool[pos].State = Available;
-            }
-            finally {
-                _semaphore.Release();
-            }
-        }
-
-        // This should only ever be called after a successful call to _semaphore.Wait/WaitAsync
-        private Task<T> EnqueueWaiter(CancellationToken token) {
-            var tcs = new TaskCompletionSource<T>();
-            _waiting.Enqueue(tcs);
-            _semaphore.Release();
-
-            if (!token.CanBeCanceled)
-                return tcs.Task;
-
-            // Need to properly manage the disposable 'Register'
-            var disposable = token.Register(Canceller, tcs);
-            return tcs.Task.ContinueWith(Disposer, disposable, TaskContinuationOptions.ExecuteSynchronously);
-        }
-
-        private async Task<T> EnqueueWaiterAfter(Task first, CancellationToken token) {
-            await first.ConfigureAwait(false);
-            return await EnqueueWaiter(token).ConfigureAwait(false);
-        }
-
-        private int FindObjectIndex(T obj) {
-            for (var pos = 0; pos < _pool.Length; ++pos) {
-                if (_pool[pos].Task.Result == obj)
-                    return pos;
+                // If there were no available items in the pool, create a TaskCompletionSource
+                //  to be used by WaitToAcquireAsync
+                Interlocked.CompareExchange(ref _waiter, new TaskCompletionSource<bool>(), null);
             }
 
-            throw new InvalidOperationException("Object is not part of the pool, or is not currently borrowed");
+            value = default(PooledObject<T>);
+            return false;
+        }
+
+        public Task<bool> WaitForReleaseAsync(CancellationToken cancellationToken = default(CancellationToken)) {
+            if (cancellationToken.IsCancellationRequested)
+                return Task.FromCanceled<bool>(cancellationToken);
+
+            // Keep a local reference to whichever TaskCompletionSource we grab
+            // to avoid racing later if the source changes partway through this method
+            var localWaiter = _waiter;
+
+            if (localWaiter == null)
+                return SuccessfulTask;
+
+            if (!cancellationToken.CanBeCanceled || localWaiter.Task.IsCompleted)
+                return localWaiter.Task;
+
+            // TODO: Look at better / more efficient ways of doing this
+            return localWaiter.Task.ContinueWith(t => t.IsCompleted && t.Result, cancellationToken);
+        }
+
+        public async Task<PooledObject<T>> AcquireAsync(CancellationToken cancellationToken = default(CancellationToken)) {
+            PooledObject<T> value;
+
+            while (!TryAquire(out value)) {
+                if (!await WaitForReleaseAsync(cancellationToken).ConfigureAwait(false))
+                    throw new ObjectDisposedException(nameof(AsyncObjectPool<T>));
+            }
+
+            return value;
+        }
+
+        // TODO: Because this method is 'internal' (so it can be used by PoolObject), there is a chance
+        //  a bad method from the same library could corrupt the internal state with this method.
+        //  Would be nicer to have some safety on it but I can't think of anything simple right now,
+        //  especially with the limited scope.
+        internal void Release(int index, bool removeFromPool) {
+            // Update the state so other callers can use the object
+            //  then trigger the pending task (if it exists).            
+            Interlocked.Exchange(ref _refs[index].State, removeFromPool ? ObjectUnset : ObjectFree);
+            Interlocked.Exchange(ref _waiter, null)?.SetResult(true);
         }
 
         private struct PoolRef {
-            public Task<T> Task;
             public int State;
+            public T Object;
         }
     }
 }
