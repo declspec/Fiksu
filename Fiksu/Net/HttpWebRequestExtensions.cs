@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
+﻿using System.Net;
 using System.Threading.Tasks;
 
 namespace Fiksu.Net {
     public static class HttpWebRequestExtensions {
-        public static HttpWebResponse GetResponseAnyStatus(this HttpWebRequest request) {
+        public static HttpWebResponse GetAnyResponse(this HttpWebRequest request) {
             try {
                 return (HttpWebResponse)request.GetResponse();
             }
@@ -17,7 +14,7 @@ namespace Fiksu.Net {
             }
         }
 
-        public static async Task<HttpWebResponse> GetResponseAnyStatusAsync(this HttpWebRequest request) {
+        public static async Task<HttpWebResponse> GetAnyResponseAsync(this HttpWebRequest request) {
             try {
                 var response = await request.GetResponseAsync().ConfigureAwait(false);
                 return (HttpWebResponse)response;
