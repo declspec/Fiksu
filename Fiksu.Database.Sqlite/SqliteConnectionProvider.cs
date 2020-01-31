@@ -10,7 +10,6 @@ namespace Fiksu.Database.Sqlite {
         private const int DefaultPoolSize = 10;
 
         private readonly AsyncValuePool<IDbConnection> _pool;
-        private readonly PooledObject<InternalSqliteConnection>[] _leased;
 
         public SqliteConnectionProvider(string connectionString)
             : this(connectionString, DefaultPoolSize) { }

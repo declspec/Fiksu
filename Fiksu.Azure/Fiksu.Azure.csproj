@@ -1,16 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <BuildVersion Condition="'$(BuildVersion)' == ''">1.0.0</BuildVersion>
+    <BuildNumber Condition="'$(BuildNumber)' == ''">0</BuildNumber>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <Version>$(BuildVersion)</Version>
+    <AssemblyVersion>$(BuildVersion)</AssemblyVersion>
+    <FileVersion>$(BuildVersion).$(BuildNumber)</FileVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="WindowsAzure.Storage" Version="9.1.1" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Fiksu.Logging\Fiksu.Logging.csproj" />
     <ProjectReference Include="..\Fiksu\Fiksu.csproj" />
   </ItemGroup>
-
 </Project>

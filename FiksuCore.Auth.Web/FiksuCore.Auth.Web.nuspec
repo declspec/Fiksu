@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>FiksuCore.Auth.Web</id>
+    <authors>Jason Larke</authors>
+    <owners>Jason Larke</owners>
+    <description>FiksuCore.Auth.Web</description>
+    <version>$Version$</version>
+    <dependencies />
+  </metadata>
+</package>
