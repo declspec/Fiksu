@@ -69,7 +69,7 @@ namespace Fiksu.Threading {
                 }
 
                 // If there were no available items in the pool, create a TaskCompletionSource
-                //  to be used by WaitToAcquireAsync
+                //  to be used by WaitForReleaseAsync
                 Interlocked.CompareExchange(ref _waiter, new TaskCompletionSource<bool>(), null);
             }
 
