@@ -113,7 +113,7 @@ namespace Fiksu.Threading {
                     //  then trigger the pending task (if it exists).            
                     Interlocked.Exchange(ref _refs[i].State, removeFromPool ? ObjectUnset : ObjectFree);
                     Interlocked.Exchange(ref _waiter, null)?.SetResult(true);
-                    break;
+                    return;
                 }
             }
 
