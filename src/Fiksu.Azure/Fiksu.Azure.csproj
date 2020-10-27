@@ -11,10 +11,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Fiksu" Version="1.2.0" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.1.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Fiksu.Logging\Fiksu.Logging.csproj" />
-    <ProjectReference Include="..\Fiksu\Fiksu.csproj" />
   </ItemGroup>
 </Project>

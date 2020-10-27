@@ -16,6 +16,6 @@
     <None Remove="Services\**" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fiksu\Fiksu.csproj" />
+    <PackageReference Include="Fiksu" Version="1.2.0" />
   </ItemGroup>
 </Project>

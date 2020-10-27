@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <BuildVersion Condition="'$(BuildVersion)' == ''">1.0.0</BuildVersion>
     <BuildNumber Condition="'$(BuildNumber)' == ''">0</BuildNumber>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
@@ -11,11 +11,9 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.1.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Fiksu.Auth\Fiksu.Auth.csproj" />
-    <ProjectReference Include="..\Fiksu.Web\Fiksu.Web.csproj" />
-    <ProjectReference Include="..\Fiksu\Fiksu.csproj" />
+    <PackageReference Include="Fiksu" Version="1.2.0" />
+    <PackageReference Include="Fiksu.Auth" Version="1.0.0" />
+    <PackageReference Include="Fiksu.Web" Version="1.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
   </ItemGroup>
 </Project>

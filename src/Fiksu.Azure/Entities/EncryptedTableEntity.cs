@@ -7,13 +7,12 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
-using Fiksu.Logging;
+using Fiksu.Cryptography;
+using System.Diagnostics;
 
 namespace Fiksu.Azure.Entities {
     public class EncryptedTableEntity : TableEntity {
         public const int DefaultEncryptionVersion = 1;
-        // No option for dependency injection here
-        protected static readonly ILogger Logger = LoggerFactory.GetLogger(nameof(EncryptedTableEntity));
 
         public int? EncryptionVersion { get; set; }
 
@@ -56,7 +55,7 @@ namespace Fiksu.Azure.Entities {
                     }
                 }
                 catch (Exception ex) {
-                    Logger.Warn(ex, "Failed to decrypt {0}.{1}", entity.GetType().FullName, info.Name);
+                    Trace.TraceWarning("Failed to decrypt {0}.{1}: {2}", entity.GetType().FullName, info.Name, ex);
                 }
             }
         }
@@ -85,7 +84,7 @@ namespace Fiksu.Azure.Entities {
                     }
                 }
                 catch (Exception ex) {
-                    Logger.Warn(ex, "Failed to encrypt {0}.{1}", entity.GetType().FullName, info.Name);
+                    Trace.TraceWarning("Failed to encrypt {0}.{1}: {2}", entity.GetType().FullName, info.Name, ex);
                 }
             }
         }
