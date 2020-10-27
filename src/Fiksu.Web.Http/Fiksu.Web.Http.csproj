@@ -8,5 +8,6 @@
     <Version>$(BuildVersion)</Version>
     <AssemblyVersion>$(BuildVersion)</AssemblyVersion>
     <FileVersion>$(BuildVersion).$(BuildNumber)</FileVersion>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 </Project>
