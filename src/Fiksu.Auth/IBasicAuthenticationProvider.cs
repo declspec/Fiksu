@@ -2,9 +2,9 @@
 
 namespace Fiksu.Auth {
     /// <summary>
-    /// An active authentication (username/password) provider
+    /// A basic authentication (username/password) provider
     /// </summary>
-    public interface IActiveAuthenticationProvider {
+    public interface IBasicAuthenticationProvider {
         /// <summary>
         /// Attempt to authenticate a username/password combination against a particular environment.
         /// </summary>
@@ -12,6 +12,6 @@ namespace Fiksu.Auth {
         /// <param name="password">The password of the user being authenticated</param>
         /// <param name="environment">The target environment to authenticate against</param>
         /// <returns>An Task while resolves to result of the authentication request, see <see cref="AuthenticationResult"/>'s static members for predefined results</returns>
-        Task<AuthenticationResult> AuthenticateAsync(string userName, string password, ExecutionEnvironment environment);
+        Task<AuthenticationResult> AuthenticateAsync(string userName, string password, IExecutionEnvironment environment);
     }
 }

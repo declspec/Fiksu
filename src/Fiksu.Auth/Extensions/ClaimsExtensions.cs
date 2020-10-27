@@ -7,7 +7,7 @@ namespace Fiksu.Auth.Extensions {
     /// <summary>
     /// Generic helper methods for dealing with claims
     /// </summary>
-    public static class SecurityExtensions {
+    public static class ClaimsExtensions {
         /// <summary>
         /// Retrieves all role claims from all identities in the provided principal
         /// </summary>

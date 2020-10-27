@@ -8,7 +8,7 @@ namespace Fiksu.Auth.Identity {
     /// <summary>
     /// Handles common ways to create an identity.
     /// </summary>
-    public interface IIdentityService {
+    public interface IIdentityFactory {
         /// <summary>
         /// Create a user's identity based off their name for a particular authentication type 
         /// </summary>
@@ -102,10 +102,10 @@ namespace Fiksu.Auth.Identity {
         Task<ClaimsIdentity> CreateAsync(IIdentity identity);
     }
 
-    public class IdentityService : IIdentityService {
+    public class IdentityFactory : IIdentityFactory {
         private readonly IEnumerable<IClaimsProvider> _claimsProviders;
 
-        public IdentityService(IEnumerable<IClaimsProvider> claimsProviders) {
+        public IdentityFactory(IEnumerable<IClaimsProvider> claimsProviders) {
             _claimsProviders = claimsProviders;
         }
 
@@ -148,17 +148,17 @@ namespace Fiksu.Auth.Identity {
             if (claims != null)
                 identity.AddClaims(claims);
 
-            await AttachClaims(identity).ConfigureAwait(false);
+            await PopulateClaimsAsync(identity).ConfigureAwait(false);
             return identity;
         }
 
         public async Task<ClaimsIdentity> CreateAsync(IIdentity identity) {
             var claimsIdentity = new ClaimsIdentity(identity);
-            await AttachClaims(claimsIdentity).ConfigureAwait(false);
+            await PopulateClaimsAsync(claimsIdentity).ConfigureAwait(false);
             return claimsIdentity;
         }
 
-        private async Task AttachClaims(ClaimsIdentity identity) {
+        private async Task PopulateClaimsAsync(ClaimsIdentity identity) {
             if (_claimsProviders != null) {
                 var claimsTasks = _claimsProviders.Select(p => p.GetClaimsAsync(identity));
                 var results = await Task.WhenAll(claimsTasks).ConfigureAwait(false);

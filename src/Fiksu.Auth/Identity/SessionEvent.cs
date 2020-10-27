@@ -2,7 +2,7 @@
     /// <summary>
     /// Events that occur during an Identity Session's lifecycle
     /// </summary>
-    public enum IdentitySessionEvent {
+    public enum SessionEvent {
         /// <summary>
         /// Raised when SignIn is called, but before doing any work.
         /// </summary>

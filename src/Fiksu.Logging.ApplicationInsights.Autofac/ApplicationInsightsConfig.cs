@@ -1,12 +1,13 @@
-﻿using Fiksu.Logging.Autofac;
+﻿using Fiksu.Extensions;
+using Fiksu.Logging.Autofac;
 using Microsoft.ApplicationInsights.Extensibility;
 
 namespace Fiksu.Logging.ApplicationInsights.Autofac {
     public static class ApplicationInsightsConfig {
-        public static LoggingBuilder AddApplicationInsights(this LoggingBuilder builder, ExecutionEnvironment environment, string instrumentationKey) {
+        public static LoggingBuilder AddApplicationInsights(this LoggingBuilder builder, IExecutionEnvironment environment, string instrumentationKey) {
             var config = TelemetryConfiguration.Active;
 
-            config.TelemetryChannel.DeveloperMode = environment == ExecutionEnvironment.Development;
+            config.TelemetryChannel.DeveloperMode = environment.IsDevelopment();
             config.InstrumentationKey = instrumentationKey;
             config.DisableTelemetry = string.IsNullOrWhiteSpace(instrumentationKey);
 

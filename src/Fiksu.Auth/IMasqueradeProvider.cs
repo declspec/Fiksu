@@ -7,7 +7,7 @@ namespace Fiksu.Auth {
     /// </summary>
     /// <remarks>
     /// Unlike the old system, authentication of the original user is not performed 
-    /// here, it should have been done previously. (i.e. by an <see cref="IActiveAuthenticationProvider"/>)
+    /// here, it should have been done previously. (i.e. by an <see cref="IBasicAuthenticationProvider"/>)
     /// </remarks>
     public interface IMasqueradeProvider {
         /// <summary>

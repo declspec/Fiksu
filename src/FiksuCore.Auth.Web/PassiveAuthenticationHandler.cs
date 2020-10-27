@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace FiksuCore.Auth.Web {
     public class PassiveAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions> {
-        private readonly ExecutionEnvironment _environment;
+        private readonly IExecutionEnvironment _environment;
         private readonly IEnumerable<IPassiveAuthenticationProvider<IHttpContext>> _providers;
 
-        public PassiveAuthenticationHandler(ExecutionEnvironment environment, IEnumerable<IPassiveAuthenticationProvider<IHttpContext>> providers, IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
+        public PassiveAuthenticationHandler(IExecutionEnvironment environment, IEnumerable<IPassiveAuthenticationProvider<IHttpContext>> providers, IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
             : base(options, logger, encoder, clock) {
             _environment = environment;
             _providers = providers;
