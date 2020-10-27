@@ -6,6 +6,7 @@
     <owners>Jason Larke</owners>
     <description>FiksuClassic.Web.Http</description>
     <version>$Version$</version>
+    <license type="expression">MIT</license>
     <dependencies />
   </metadata>
 </package>
