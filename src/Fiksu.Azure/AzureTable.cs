@@ -60,7 +60,7 @@ namespace Fiksu.Azure {
 
         public async Task<IList<TEntity>> GetPartitionAsync(string partitionKey) {
             return await GetEntitiesAsync(new TableQuery<TEntity>()
-                .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey)));
+                .Where(TableQuery.GenerateFilterCondition(nameof(TableEntity.PartitionKey), QueryComparisons.Equal, partitionKey)));
         }
 
         public Task CreateEntityAsync(TEntity entity) {

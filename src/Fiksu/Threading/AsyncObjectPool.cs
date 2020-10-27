@@ -118,8 +118,14 @@ namespace Fiksu.Threading {
         //  especially with the limited scope.
         internal void Release(int index, bool removeFromPool) {
             // Update the state so other callers can use the object
-            //  then trigger the pending task (if it exists).            
-            Interlocked.Exchange(ref _refs[index].State, removeFromPool ? ObjectUnset : ObjectFree);
+            //  then trigger the pending task (if it exists).
+            if (!removeFromPool)
+                _refs[index].State = ObjectFree;
+            else {
+                _refs[index].Object = default;
+                _refs[index].State = ObjectUnset;
+            }
+
             Interlocked.Exchange(ref _waiter, null)?.SetResult(true);
         }
 
