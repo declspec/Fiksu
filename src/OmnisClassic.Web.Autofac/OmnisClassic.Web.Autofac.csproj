@@ -55,19 +55,5 @@
       <Version>4.8.1</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Omnis.Web\Omnis.Web.csproj">
-      <Project>{C7E98794-80AF-45CF-AF02-A1EA7348ADD5}</Project>
-      <Name>Omnis.Web</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OmnisClassic.Web\OmnisClassic.Web.csproj">
-      <Project>{95EB20AF-53C9-4AC2-8206-E61E9590103A}</Project>
-      <Name>OmnisClassic.Web</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Omnis\Omnis.csproj">
-      <Project>{7C7DA032-2BF4-48EE-A6E8-BA6ECDDFDB6D}</Project>
-      <Name>Omnis</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

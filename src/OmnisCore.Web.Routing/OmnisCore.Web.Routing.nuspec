@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>OmnisCore.Web.Routing</id>
@@ -7,6 +7,9 @@
     <description>OmnisCore.Web.Routing</description>
     <version>$Version$</version>
     <license type="expression">MIT</license>
-    <dependencies />
+    <dependencies>
+      <dependency id="Microsoft.AspNetCore.Mvc.Core" version="2.1.1" />
+      <dependency id="Microsoft.AspNetCore.Routing.Abstractions" version="2.1.1" />
+    </dependencies>
   </metadata>
 </package>

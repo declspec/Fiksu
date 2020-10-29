@@ -16,6 +16,6 @@
     <None Remove="Services\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Omnis" Version="1.2.0" />
+    <PackageReference Include="Omnis" Version="1.0.0" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Omnis.Azure</id>
@@ -7,6 +7,9 @@
     <description>Omnis.Azure</description>
     <version>$Version$</version>
     <license type="expression">MIT</license>
-    <dependencies />
+    <dependencies>
+      <dependency id="Omnis" version="1.0.0" />
+      <dependency id="WindowsAzure.Storage" version="9.1.1" />
+    </dependencies>
   </metadata>
 </package>

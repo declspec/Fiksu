@@ -13,7 +13,4 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Omnis.Auth\Omnis.Auth.csproj" />
-  </ItemGroup>
 </Project>

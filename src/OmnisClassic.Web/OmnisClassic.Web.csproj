@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Omnis.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Omnis.Web.1.0.0\lib\netstandard2.0\Omnis.Web.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -58,15 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Omnis.Web\Omnis.Web.csproj">
-      <Project>{C7E98794-80AF-45CF-AF02-A1EA7348ADD5}</Project>
-      <Name>Omnis.Web</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Omnis\Omnis.csproj">
-      <Project>{7C7DA032-2BF4-48EE-A6E8-BA6ECDDFDB6D}</Project>
-      <Name>Omnis</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
