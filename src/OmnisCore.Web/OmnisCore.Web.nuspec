@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>OmnisCore.Web</id>
+    <authors>Jason Larke</authors>
+    <owners>Jason Larke</owners>
+    <description>OmnisCore.Web</description>
+    <version>$Version$</version>
+    <license type="expression">MIT</license>
+    <dependencies>
+      <dependency id="Omnis.Web" version="1.0.0" />
+      <dependency id="Microsoft.AspNetCore.Http.Abstractions" version="2.1.0" />
+    </dependencies>
+  </metadata>
+</package>
