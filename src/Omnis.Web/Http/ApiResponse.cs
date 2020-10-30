@@ -1,31 +1,30 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
 
 namespace Omnis.Web.Http {
-    public struct ApiResponse {
-        public string[] Errors { get; }
-        public object Data { get; }
+    public interface IApiResponse {
+        int Status { get; }
+        IList<string> Errors { get; }
+    }
+
+    public interface IApiResponse<out T> : IApiResponse {
+        T Data { get; }
+    }
+
+    public partial class ApiResponse : IApiResponse {
         public int Status { get; }
+        public IList<string> Errors { get; }
 
-        public static ApiResponse Success(int status, object data) {
-            return new ApiResponse(status, data, null);
-        }
-
-        public static ApiResponse Success(HttpStatusCode status, object data) {
-            return new ApiResponse((int)status, data, null);
-        }
-
-        public static ApiResponse Error(int status, params string[] errors) {
-            return new ApiResponse(status, null, errors);
-        }
-
-        public static ApiResponse Error(HttpStatusCode status, params string[] errors) {
-            return new ApiResponse((int)status, null, errors);
-        }
-
-        private ApiResponse(int status, object data, string[] errors) {
+        public ApiResponse(int status, IList<string> errors) {
             Status = status;
-            Data = data;
             Errors = errors;
+        }
+    }
+
+    public class ApiResponse<T> : ApiResponse, IApiResponse<T> {
+        public T Data { get; }
+       
+        public ApiResponse(int status, T data, IList<string> errors) : base(status, errors) {
+            Data = data;
         }
     }
 }
