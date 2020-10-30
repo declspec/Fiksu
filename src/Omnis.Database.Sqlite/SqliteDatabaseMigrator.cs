@@ -30,22 +30,21 @@ namespace Omnis.Database.Sqlite {
             _migrationAssemblies = migrationAssemblies;
         }
 
-        public void MigrateToLatest() {
-            MigrateTo(long.MaxValue);
+        public int MigrateToLatest() {
+            return MigrateTo(long.MaxValue);
         }
 
-        public void MigrateTo(long version) {
+        public int MigrateTo(long version) {
             // First, ensure the table exists
             _connection.Execute(CreateVersionInfoTableDdl);
             var latest = _connection.ExecuteScalar<long>("SELECT MAX(version) FROM version_info");
 
-            if (version > latest)
-                MigrateUpTo(version, latest);
-            else
-                MigrateDownTo(version);
+            return (version > latest)
+                ? MigrateUpTo(version, latest)
+                : -MigrateDownTo(version);
         }
 
-        private void MigrateUpTo(long version, long from) {
+        private int MigrateUpTo(long version, long from) {
             var migrationType = typeof(IMigration);
             var completed = new Stack<MigrationOperation>();
 
@@ -63,14 +62,16 @@ namespace Omnis.Database.Sqlite {
                     _connection.Execute("INSERT INTO version_info(version,title,date_created) VALUES(@version,@title,current_timestamp)", new { version = operation.Version, title = operation.Title });
                 }
             }
-            catch (Exception) {
+            catch {
                 // Attempt to rollback
                 Rollback(completed);
                 throw; // Bubble the exception
             }
+
+            return completed.Count;
         }
 
-        private void MigrateDownTo(long version) {
+        private int MigrateDownTo(long version) {
             var migrationType = typeof(IMigration);
             var completed = new Stack<MigrationOperation>();
 
@@ -90,11 +91,13 @@ namespace Omnis.Database.Sqlite {
                     _connection.Execute("DELETE FROM version_info WHERE version = @Version", new { Version = operation.Version });
                 }
             }
-            catch (Exception) {
+            catch {
                 // Attempt to rollback
                 Rollup(completed);
                 throw; // Bubble the exception
             }
+
+            return completed.Count;
         }
 
         private void Rollback(Stack<MigrationOperation> migrations) {
