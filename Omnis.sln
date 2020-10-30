@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2037
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Omnis", "src\Omnis\Omnis.csproj", "{0C99EE1A-93EE-4B54-809C-0A3F4FA8A62C}"
 EndProject
@@ -34,8 +34,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OmnisCore.Auth.Web", "src\OmnisCore.Auth.Web\OmnisCore.Auth.Web.csproj", "{24A213F6-0A49-499B-A07B-A60ECD99A80F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OmnisCore.Web.Http", "src\OmnisCore.Web.Http\OmnisCore.Web.Http.csproj", "{B5E5093D-1F95-49EB-9E69-7B902A59807F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Omnis.Web.Http", "src\Omnis.Web.Http\Omnis.Web.Http.csproj", "{DF3C6E4F-9D4E-4A40-B648-3CFEC8A9C6AA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Omnis.Database", "src\Omnis.Database\Omnis.Database.csproj", "{F028CD69-E59B-49D2-903C-0EBC4CE9B73A}"
 EndProject
@@ -118,10 +116,6 @@ Global
 		{B5E5093D-1F95-49EB-9E69-7B902A59807F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5E5093D-1F95-49EB-9E69-7B902A59807F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5E5093D-1F95-49EB-9E69-7B902A59807F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF3C6E4F-9D4E-4A40-B648-3CFEC8A9C6AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF3C6E4F-9D4E-4A40-B648-3CFEC8A9C6AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF3C6E4F-9D4E-4A40-B648-3CFEC8A9C6AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF3C6E4F-9D4E-4A40-B648-3CFEC8A9C6AA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F028CD69-E59B-49D2-903C-0EBC4CE9B73A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F028CD69-E59B-49D2-903C-0EBC4CE9B73A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F028CD69-E59B-49D2-903C-0EBC4CE9B73A}.Release|Any CPU.ActiveCfg = Release|Any CPU
