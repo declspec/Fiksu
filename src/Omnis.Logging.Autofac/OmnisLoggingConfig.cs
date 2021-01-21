@@ -2,13 +2,12 @@
 using System.Linq;
 using Autofac;
 using Autofac.Core;
-using NLog.Config;
 
 namespace Omnis.Logging.Autofac {
     public static class OmnisLoggingConfig {
         public static LoggingBuilder AddOmnisLogging(this ContainerBuilder builder) {
             builder.RegisterModule<LoggingModule>();
-            return new LoggingBuilder(builder, new LoggingConfiguration());
+            return new LoggingBuilder(builder);
         }
 
         private class LoggingModule : Module {

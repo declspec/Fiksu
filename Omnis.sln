@@ -13,12 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Omnis.Auth.Web.Autofac", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Omnis.Azure", "src\Omnis.Azure\Omnis.Azure.csproj", "{F4A7D52F-0483-4529-B054-5B263C22DEF4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Omnis.Logging", "src\Omnis.Logging\Omnis.Logging.csproj", "{80A5337D-A229-435D-A7DC-50D1C4222230}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Omnis.Logging.ApplicationInsights.Autofac", "src\Omnis.Logging.ApplicationInsights.Autofac\Omnis.Logging.ApplicationInsights.Autofac.csproj", "{CCDA9363-41F3-4AF4-8DE2-CDB77BC513EB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Omnis.Logging.Autofac", "src\Omnis.Logging.Autofac\Omnis.Logging.Autofac.csproj", "{7A9810A1-2C17-467E-AEC0-6E573786A226}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Omnis.Web", "src\Omnis.Web\Omnis.Web.csproj", "{DEC68101-6F42-4E38-94A1-CFC33370A44A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmnisClassic.Web", "src\OmnisClassic.Web\OmnisClassic.Web.csproj", "{95EB20AF-53C9-4AC2-8206-E61E9590103A}"
@@ -72,18 +66,6 @@ Global
 		{F4A7D52F-0483-4529-B054-5B263C22DEF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4A7D52F-0483-4529-B054-5B263C22DEF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4A7D52F-0483-4529-B054-5B263C22DEF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80A5337D-A229-435D-A7DC-50D1C4222230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80A5337D-A229-435D-A7DC-50D1C4222230}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80A5337D-A229-435D-A7DC-50D1C4222230}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80A5337D-A229-435D-A7DC-50D1C4222230}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CCDA9363-41F3-4AF4-8DE2-CDB77BC513EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CCDA9363-41F3-4AF4-8DE2-CDB77BC513EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CCDA9363-41F3-4AF4-8DE2-CDB77BC513EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CCDA9363-41F3-4AF4-8DE2-CDB77BC513EB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A9810A1-2C17-467E-AEC0-6E573786A226}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A9810A1-2C17-467E-AEC0-6E573786A226}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A9810A1-2C17-467E-AEC0-6E573786A226}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A9810A1-2C17-467E-AEC0-6E573786A226}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DEC68101-6F42-4E38-94A1-CFC33370A44A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DEC68101-6F42-4E38-94A1-CFC33370A44A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEC68101-6F42-4E38-94A1-CFC33370A44A}.Release|Any CPU.ActiveCfg = Release|Any CPU

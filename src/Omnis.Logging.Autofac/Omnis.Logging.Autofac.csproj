@@ -12,9 +12,5 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
-    <PackageReference Include="NLog" Version="4.5.4" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Omnis.Logging\Omnis.Logging.csproj" />
   </ItemGroup>
 </Project>
