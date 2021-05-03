@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 
 namespace Omnis.Database.Sqlite {
-    public class SqliteDatabaseMigrator : IDatabaseMigrator {
+    public class SqliteDbMigrator : IDbMigrator {
         private static readonly Type MigrationType = typeof(IMigration);
 
         private const string CreateVersionInfoTableDdl =
@@ -16,35 +16,33 @@ namespace Omnis.Database.Sqlite {
                 date_created    TIMESTAMP NOT NULL
             ) WITHOUT ROWID";
 
-        private readonly IDbConnection _connection;
-        private readonly IList<Assembly> _migrationAssemblies;
+        private readonly IReadOnlyList<Assembly> _migrationAssemblies;
 
-        public SqliteDatabaseMigrator(IDbConnection connection, params Assembly[] migrationAssemblies) {
-            if (connection == null || migrationAssemblies == null)
-                throw new ArgumentNullException(connection == null ? nameof(connection) : nameof(migrationAssemblies));
+        public SqliteDbMigrator(params Assembly[] migrationAssemblies) {
+            if (migrationAssemblies == null)
+                throw new ArgumentNullException(nameof(migrationAssemblies));
 
             if (migrationAssemblies.Length == 0)
                 throw new ArgumentOutOfRangeException(nameof(migrationAssemblies), "Must specify at least one assembly to retrieve migrations from");
 
-            _connection = connection;
             _migrationAssemblies = migrationAssemblies;
         }
 
-        public int MigrateToLatest() {
-            return MigrateTo(long.MaxValue);
+        public int MigrateToLatest(IDbConnection connection) {
+            return MigrateTo(connection, long.MaxValue);
         }
 
-        public int MigrateTo(long version) {
+        public int MigrateTo(IDbConnection connection, long version) {
             // First, ensure the table exists
-            _connection.Execute(CreateVersionInfoTableDdl);
-            var latest = _connection.ExecuteScalar<long>("SELECT MAX(version) FROM version_info");
+            connection.Execute(CreateVersionInfoTableDdl);
+            var latest = connection.ExecuteScalar<long>("SELECT MAX(version) FROM version_info");
 
             return (version > latest)
-                ? MigrateUpTo(version, latest)
-                : -MigrateDownTo(version);
+                ? MigrateUpTo(connection, version, latest)
+                : -MigrateDownTo(connection, version);
         }
 
-        private int MigrateUpTo(long version, long from) {
+        private int MigrateUpTo(IDbConnection connection, long version, long from) {
             var migrationType = typeof(IMigration);
             var completed = new Stack<MigrationOperation>();
 
@@ -57,25 +55,25 @@ namespace Omnis.Database.Sqlite {
                     var migration = (IMigration)Activator.CreateInstance(m.Type);
                     var operation = new MigrationOperation(migration, m.Attribute.Version, m.Attribute.Title ?? m.Type.Name);
 
-                    migration.Up(_connection);
+                    migration.Up(connection);
                     completed.Push(operation);
-                    _connection.Execute("INSERT INTO version_info(version,title,date_created) VALUES(@version,@title,current_timestamp)", new { version = operation.Version, title = operation.Title });
+                    connection.Execute("INSERT INTO version_info(version,title,date_created) VALUES(@version,@title,current_timestamp)", new { version = operation.Version, title = operation.Title });
                 }
             }
             catch {
                 // Attempt to rollback
-                Rollback(completed);
+                Rollback(connection, completed);
                 throw; // Bubble the exception
             }
 
             return completed.Count;
         }
 
-        private int MigrateDownTo(long version) {
+        private int MigrateDownTo(IDbConnection connection, long version) {
             var migrationType = typeof(IMigration);
             var completed = new Stack<MigrationOperation>();
 
-            var todo = _connection.Query<long>("SELECT version FROM version_info WHERE version > @Version", new { Version = version });
+            var todo = connection.Query<long>("SELECT version FROM version_info WHERE version > @Version", new { Version = version });
 
             var migrations = FindMetadata()
                 .Where(m => todo.Contains(m.Attribute.Version))
@@ -86,41 +84,41 @@ namespace Omnis.Database.Sqlite {
                     var migration = (IMigration)Activator.CreateInstance(m.Type);
                     var operation = new MigrationOperation(migration, m.Attribute.Version, m.Attribute.Title ?? m.Type.Name);
 
-                    migration.Down(_connection);
+                    migration.Down(connection);
                     completed.Push(operation);
-                    _connection.Execute("DELETE FROM version_info WHERE version = @Version", new { Version = operation.Version });
+                    connection.Execute("DELETE FROM version_info WHERE version = @Version", new { Version = operation.Version });
                 }
             }
             catch {
                 // Attempt to rollback
-                Rollup(completed);
+                Rollup(connection, completed);
                 throw; // Bubble the exception
             }
 
             return completed.Count;
         }
 
-        private void Rollback(Stack<MigrationOperation> migrations) {
+        private void Rollback(IDbConnection connection, Stack<MigrationOperation> migrations) {
             var lastSuccessful = long.MaxValue;
 
             try {
                 while (migrations.Count > 0) {
                     var current = migrations.Pop();
-                    current.Migration.Down(_connection);
+                    current.Migration.Down(connection);
                     lastSuccessful = current.Version;
                 }
             }
             finally {
                 // Even an exception occurs during one of the 'Down' migrations, ensure that the 'version_info' table is up-to-date
-                _connection.Execute("DELETE FROM version_info WHERE version >= @last", new { last = lastSuccessful });
+                connection.Execute("DELETE FROM version_info WHERE version >= @last", new { last = lastSuccessful });
             }
         }
 
-        private void Rollup(Stack<MigrationOperation> migrations) {
+        private void Rollup(IDbConnection connection, Stack<MigrationOperation> migrations) {
             while (migrations.Count > 0) {
                 var current = migrations.Pop();
-                current.Migration.Up(_connection);
-                _connection.Execute("INSERT INTO version_info(version,title,date_created) VALUES(@version,@title,current_timestamp)", new { version = current.Version, title = current.Title });
+                current.Migration.Up(connection);
+                connection.Execute("INSERT INTO version_info(version,title,date_created) VALUES(@version,@title,current_timestamp)", new { version = current.Version, title = current.Title });
             }
         }
 
